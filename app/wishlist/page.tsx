@@ -46,7 +46,7 @@ export default function WishlistPage() {
           own<span className="text-[#2D5BE3]">ie</span>
         </span>
         <a
-          href="https://x.com/ownie"
+          href="https://x.com/ownieapp"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#1A1A1A]/30 hover:text-[#1A1A1A] transition-colors duration-200"
@@ -178,7 +178,7 @@ export default function WishlistPage() {
       <footer className="relative z-10 border-t border-[#1A1A1A]/[0.07] px-8 py-6 md:px-16 flex items-center justify-between bg-[#F7F5F0]">
         <span className="text-[#1A1A1A]/25 text-xs">© 2026 Ownie</span>
         <a
-          href="https://x.com/ownie"
+          href="https://x.com/ownieapp"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#1A1A1A]/25 hover:text-[#1A1A1A]/60 transition-colors text-xs flex items-center gap-1.5"
