@@ -7,16 +7,27 @@ export default function WishlistPage() {
   const [submitted, setSubmitted] = useState(false);
   const [focused, setFocused] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    // TODO: koble til e-post-logikk (Resend, Loops, etc.)
-    console.log("Email submitted:", email);
-    setSubmitted(true);
+
+    try {
+      const res = await fetch("/api/wishlist/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      }
+    } catch (err) {
+      console.error("Failed to subscribe:", err);
+    }
   };
 
   return (
-    <main className="min-h-screen bg-[#F7F5F0] text-[#1A1A1A] overflow-hidden relative flex flex-col">
+    <main className="min-h-screen text-[#1A1A1A] overflow-hidden relative flex flex-col">
       {/* Subtle grid background */}
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.4]"
@@ -32,7 +43,7 @@ export default function WishlistPage() {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-8 py-6 md:px-16">
         <span className="font-medium text-2xl tracking-tight text-[#1A1A1A]">
-          own<span className="text-[#2D5BE3]">ly</span>
+          own<span className="text-[#2D5BE3]">ie</span>
         </span>
         <a
           href="https://x.com/ownie"
@@ -50,7 +61,7 @@ export default function WishlistPage() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 border border-[#1A1A1A]/10 bg-white rounded-full px-4 py-1.5 mb-10 text-xs text-[#1A1A1A]/40 tracking-widest uppercase shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3] animate-pulse" />
-          Coming soon
+          Now accepting sellers
         </div>
 
         {/* Headline */}
@@ -111,7 +122,7 @@ export default function WishlistPage() {
               ✓ You&apos;re on the list
             </p>
             <p className="text-[#1A1A1A]/40 text-xs">
-              We&apos;ll reach out when wnly launches.
+              We&apos;ll reach out with news about Ownie.
             </p>
           </div>
         )}
