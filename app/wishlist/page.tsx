@@ -1,15 +1,18 @@
 "use client";
 
+import { CodeIcon, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 export default function WishlistPage() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+    setLoading(true);
 
     try {
       const res = await fetch("/api/wishlist/subscribe", {
@@ -24,6 +27,7 @@ export default function WishlistPage() {
     } catch (err) {
       console.error("Failed to subscribe:", err);
     }
+    setLoading(false);
   };
 
   return (
@@ -57,7 +61,7 @@ export default function WishlistPage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 text-center pt-20 pb-28">
+      <section className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 text-center pt-16">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 border border-[#1A1A1A]/10 bg-white rounded-full px-4 py-1.5 mb-10 text-xs text-[#1A1A1A]/40 tracking-widest uppercase shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3] animate-pulse" />
@@ -89,7 +93,7 @@ export default function WishlistPage() {
         {!submitted ? (
           <form onSubmit={handleSubmit} className="w-full max-w-md">
             <div
-              className={`flex items-center border rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
+              className={`flex flex-col md:flex-row border rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
                 focused
                   ? "border-[#2D5BE3]/50 bg-white shadow-[0_0_0_4px_rgba(45,91,227,0.08)]"
                   : "border-[#1A1A1A]/12 bg-white"
@@ -107,6 +111,7 @@ export default function WishlistPage() {
               />
               <button
                 type="submit"
+                disabled={loading}
                 className="px-6 py-4 bg-[#1A1A1A] text-white font-semibold text-sm tracking-tight hover:bg-[#2D5BE3] active:scale-95 transition-all duration-200 whitespace-nowrap"
               >
                 Get early access
@@ -158,20 +163,100 @@ export default function WishlistPage() {
         </div>
       </section>
 
-      {/* Developer CTA */}
-      <section className="relative z-10 border-t border-[#1A1A1A]/[0.07] bg-white px-6 py-10 flex flex-col md:flex-row items-center justify-center gap-4 text-center">
-        <p className="text-[#1A1A1A]/40 text-sm">
-          Are you a developer?{" "}
-          <span className="text-[#1A1A1A]/60">
-            Sell your apps to thousands of businesses.
-          </span>
-        </p>
-        <a
-          href="mailto:hello@ownie.app"
-          className="text-[#2D5BE3] text-sm font-semibold hover:underline underline-offset-4 transition-all"
-        >
-          Apply as a seller →
-        </a>
+      {/* How does it work */}
+      <section className="relative z-10 w-full max-w-6xl py-20 mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold mb-4">How Ownly works</h2>
+          <p className="text-[#1A1A1A]/40">
+            A transparent model for both buyers and builders.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* For Buyers */}
+          <div className="space-y-8 p-8 bg-white rounded-2xl border border-[#1A1A1A]/[0.05] shadow-sm">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-[#2D5BE3]/10 flex items-center justify-center">
+                <ShoppingCart className="text-[#2D5BE3] w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold">For Buyers</h3>
+            </div>
+
+            <ul className="space-y-6">
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">01.</span>
+                <p className="text-sm text-[#1A1A1A]/60 leading-relaxed">
+                  <strong className="text-[#1A1A1A] block">
+                    Discover Alternatives
+                  </strong>
+                  Browse curated replacements for HubSpot, Monday, and Notion.
+                  Filter by features and technical requirements.
+                </p>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">02.</span>
+                <p className="text-sm text-[#1A1A1A]/60 leading-relaxed">
+                  <strong className="text-[#1A1A1A] block">
+                    Pick Your Stack
+                  </strong>
+                  Choose software that fits your existing infrastructure
+                  (Docker, Vercel, Supabase). Setup help is often included.
+                </p>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">03.</span>
+                <p className="text-sm text-[#1A1A1A]/60 leading-relaxed">
+                  <strong className="text-[#1A1A1A] block">
+                    Full Ownership
+                  </strong>
+                  Pay once, get the source code, and gain full control over your
+                  data. No more price hikes or subscriptions.
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          {/* For Sellers */}
+          <div className="space-y-8 p-8 bg-[#1A1A1A] text-white rounded-2xl shadow-xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
+                <CodeIcon className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white">For Sellers</h3>
+            </div>
+
+            <ul className="space-y-6">
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">01.</span>
+                <p className="text-sm text-white/60 leading-relaxed">
+                  <strong className="text-white block">
+                    Professional Onboarding
+                  </strong>
+                  Register as an individual developer or a team. Build trust
+                  through our verified sales process.
+                </p>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">02.</span>
+                <p className="text-sm text-white/60 leading-relaxed">
+                  <strong className="text-white block">
+                    Ship Complete Products
+                  </strong>
+                  Set your own price, upload your code, and provide clear
+                  documentation to help buyers scale.
+                </p>
+              </li>
+              <li className="flex gap-4">
+                <span className="text-[#2D5BE3] font-mono font-bold">03.</span>
+                <p className="text-sm text-white/60 leading-relaxed">
+                  <strong className="text-white block">Brand Ownership</strong>
+                  Use your product page to showcase your quality and expertise.
+                  Reach customers actively looking to &quot;buy once.&quot;
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       {/* Footer */}
