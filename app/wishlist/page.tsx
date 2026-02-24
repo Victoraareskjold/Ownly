@@ -242,7 +242,7 @@ export default function WishlistPage() {
                   <strong className="text-white block">
                     Ship Complete Products
                   </strong>
-                  Set your own price, upload your code, and provide clear
+                  Set your own price, describe your product, and provide clear
                   documentation to help buyers scale.
                 </p>
               </li>
