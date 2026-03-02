@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
+import WishlistPage from "./(wishlist)/wishlist/page";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,9 +14,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (process.env.NEXT_PUBLIC_MODE === "wishlist") {
+    return <WishlistPage />;
+  }
+
   return (
     <html lang="en">
-      <body className="bg-[#FAF9F5]">{children}</body>
+      <body className="bg-[#FAF9F5]">
+        {children}
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');`}</style>
+      </body>
       <Script src="https://www.consentify.app/api/gateway?token=ddf97962-0d8b-4c27-9e1b-ab70d6dfc25d"></Script>
       <Analytics />
     </html>

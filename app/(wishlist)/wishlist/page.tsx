@@ -1,5 +1,7 @@
 "use client";
 
+import AcceptingSellersBadge from "@/app/components/wishlist/AcceptingSellersBadge";
+import EmailForm from "@/app/components/wishlist/EmailForm";
 import { CodeIcon, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
@@ -31,16 +33,14 @@ export default function WishlistPage() {
   };
 
   return (
-    <main className="min-h-screen text-[#1A1A1A] overflow-hidden relative flex flex-col">
-      {/* Subtle grid background */}
+    <div className="min-h-screen flex flex-col">
       <div
-        className="pointer-events-none fixed inset-0 opacity-[0.4]"
+        className="pointer-events-none -z-10 fixed inset-0 opacity-[0.35]"
         style={{
           backgroundImage: `linear-gradient(#D4D0C8 1px, transparent 1px), linear-gradient(90deg, #D4D0C8 1px, transparent 1px)`,
           backgroundSize: "48px 48px",
         }}
       />
-
       {/* Ambient glow */}
       <div className="pointer-events-none fixed top-[-10%] right-[20%] w-[500px] h-[500px] rounded-full bg-[#2D5BE3] opacity-[0.05] blur-[100px]" />
 
@@ -62,113 +62,45 @@ export default function WishlistPage() {
 
       {/* Hero */}
       <section className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 text-center pt-16">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 border border-[#1A1A1A]/10 bg-white rounded-full px-4 py-1.5 mb-10 text-xs text-[#1A1A1A]/40 tracking-widest uppercase shadow-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3] animate-pulse" />
-          Now accepting sellers
-        </div>
+        <AcceptingSellersBadge />
 
         {/* Headline */}
         <h1
-          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight mb-6 max-w-4xl text-[#1A1A1A]"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight mb-6 max-w-6xl text-[#1A1A1A]"
           style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
         >
-          Stop renting
-          <br />
-          <span className="italic text-[#2D5BE3]">your software.</span>
+          Stop renting <span className="italic text-[#2D5BE3]"> your </span>
+          software.
         </h1>
 
         {/* Subheadline */}
-        <p className="text-[#1A1A1A]/50 text-lg md:text-xl max-w-lg mb-4 leading-relaxed font-light">
+        <p className="text-[#1A1A1A]/50 text-lg md:text-xl max-w-2xl mb-4 leading-relaxed font-light">
           A curated marketplace of complete, self-hosted alternatives to
           expensive SaaS tools. Buy once. Own the code. Pay nothing monthly.
         </p>
 
         {/* Teaser */}
-        <p className="text-[#1A1A1A]/25 text-sm mb-12 tracking-wide">
+        <p className="text-[#1A1A1A]/65 text-sm mb-12 tracking-wide">
           Replace HubSpot. Replace Monday. Replace Notion. Forever.
         </p>
 
-        {/* Email form */}
-        {!submitted ? (
-          <form onSubmit={handleSubmit} className="w-full max-w-md">
-            <div
-              className={`flex flex-col md:flex-row border rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
-                focused
-                  ? "border-[#2D5BE3]/50 bg-white shadow-[0_0_0_4px_rgba(45,91,227,0.08)]"
-                  : "border-[#1A1A1A]/12 bg-white"
-              }`}
-            >
-              <input
-                type="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-                required
-                className="flex-1 bg-transparent px-5 py-4 text-[#1A1A1A] placeholder-[#1A1A1A]/25 outline-none text-sm"
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-6 py-4 bg-[#1A1A1A] text-white font-semibold text-sm tracking-tight hover:bg-[#2D5BE3] active:scale-95 transition-all duration-200 whitespace-nowrap"
-              >
-                Get early access
-              </button>
-            </div>
-            <p className="text-[#1A1A1A]/25 text-xs mt-3">
-              No spam. We&apos;ll let you know when we launch.
-            </p>
-          </form>
-        ) : (
-          <div className="w-full max-w-md border border-[#2D5BE3]/20 bg-[#2D5BE3]/5 rounded-xl px-6 py-5 text-center">
-            <p className="text-[#2D5BE3] font-semibold text-sm mb-1">
-              ✓ You&apos;re on the list
-            </p>
-            <p className="text-[#1A1A1A]/40 text-xs">
-              We&apos;ll reach out with news about Ownie.
-            </p>
-          </div>
-        )}
-
-        {/* Value props */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mt-20 w-full">
-          {[
-            {
-              label: "Buy once",
-              desc: "No subscriptions, ever. Pay a one-time fee and own the code.",
-            },
-            {
-              label: "Self-host",
-              desc: "Deploy on your own infra or Vercel/Supabase. Your data, always.",
-            },
-            {
-              label: "Updates included",
-              desc: "Sellers commit to bugfixes and updates for all buyers.",
-            },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="border border-[#1A1A1A]/[0.07] bg-white rounded-xl p-5 text-left hover:border-[#2D5BE3]/30 hover:shadow-md transition-all duration-300 shadow-sm"
-            >
-              <p className="text-[#1A1A1A] font-semibold text-sm mb-2">
-                {item.label}
-              </p>
-              <p className="text-[#1A1A1A]/40 text-xs leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+        <EmailForm
+          submitted={submitted}
+          handleSubmit={handleSubmit}
+          email={email}
+          setEmail={setEmail}
+          focused={focused}
+          setFocused={setFocused}
+          loading={loading}
+        />
       </section>
 
       {/* How does it work */}
-      <section className="relative z-10 w-full max-w-6xl py-20 mx-auto">
+      <section className="relative z-10 w-full max-w-6xl py-20 mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">How Ownly works</h2>
+          <h2 className="text-3xl font-bold mb-4">How Ownie works</h2>
           <p className="text-[#1A1A1A]/40">
-            A transparent model for both buyers and builders.
+            The next-gen marketplace, connecting builders with buyers.
           </p>
         </div>
 
@@ -276,7 +208,7 @@ export default function WishlistPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
       `}</style>
-    </main>
+    </div>
   );
 }
 

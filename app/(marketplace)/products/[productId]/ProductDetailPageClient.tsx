@@ -1,0 +1,434 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Product } from "@/lib/types/product";
+
+interface ProductDetailPageClientProps {
+  product: Product;
+}
+
+function formatPrice(price: number) {
+  return `$${price.toLocaleString()}`;
+}
+
+function ContactModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(4px)" }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-md bg-white rounded-2xl p-8 border border-[#1A1A1A]/[0.07] shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3
+          className="text-2xl text-[#1A1A1A] mb-1 font-semibold"
+          /* style={{ fontFamily: "'Instrument Serif', Georgia, serif" }} */
+        >
+          Contact seller
+        </h3>
+        <p className="text-[#1A1A1A]/45 text-sm mb-6">
+          Book a demo or ask the seller a question.
+        </p>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
+              Name
+            </label>
+            <input
+              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
+              Email
+            </label>
+            <input
+              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
+              placeholder="you@company.com"
+            />
+          </div>
+          <div>
+            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
+              Message
+            </label>
+            <textarea
+              rows={3}
+              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 resize-none transition-colors bg-[#F7F5F0]"
+              placeholder="Tell us a bit about what you're looking for..."
+            />
+          </div>
+          <button className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200">
+            Send message
+          </button>
+        </div>
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 text-[#1A1A1A]/30 hover:text-[#1A1A1A]/70 text-lg transition-colors leading-none"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function ProductDetailPageClient({
+  product,
+}: ProductDetailPageClientProps) {
+  const [contactOpen, setContactOpen] = useState(false);
+  const [tab, setTab] = useState<"overview" | "technical">("overview");
+
+  return (
+    <>
+      <div className="max-w-6xl min-h-screen mx-auto px-6 py-12">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 mb-8 font-medium">
+          <Link href="/" className="hover:text-[#2D5BE3] transition-colors">
+            Marketplace
+          </Link>
+          <span>/</span>
+          {product.category[0] && (
+            <>
+              <Link
+                href={`/products?category=${product.category[0].name}`}
+                className="hover:text-[#2D5BE3] transition-colors"
+              >
+                {product.category[0].name}
+              </Link>
+              <span>/</span>
+            </>
+          )}
+          <span className="text-[#1A1A1A]/55">{product.name}</span>
+        </nav>
+
+        {/* Main layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+          {/* ── Left column ── */}
+          <div>
+            {/* Header */}
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {product.category.map((cat) => (
+                  <span
+                    key={cat.id}
+                    className="text-xs bg-[#F7F5F0] border border-[#1A1A1A]/[0.07] text-[#1A1A1A]/40 px-2.5 py-1 rounded-md"
+                  >
+                    {cat.name}
+                  </span>
+                ))}
+              </div>
+
+              <h1
+                className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1A1A1A] mb-3"
+                /* style={{ fontFamily: "'Instrument Serif', Georgia, serif" }} */
+              >
+                {product.name}
+              </h1>
+              <p className="text-[#1A1A1A]/50 text-lg leading-relaxed max-w-2xl">
+                {product.tagline}
+              </p>
+
+              <div className="flex items-center gap-2 mt-5 text-sm text-[#1A1A1A]/35">
+                <span>
+                  <span className="text-[#1A1A1A]/70 font-semibold">
+                    {product.sales}
+                  </span>{" "}
+                  sales
+                </span>
+                <span>·</span>
+                <span>
+                  by{" "}
+                  <span className="text-[#1A1A1A]/70">
+                    @{product.seller.name}
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            {/* Demo placeholder */}
+            <div
+              className="w-full rounded-xl border border-[#1A1A1A]/[0.07] bg-[#F7F5F0] flex items-center justify-center cursor-pointer group mb-8 hover:border-[#2D5BE3]/30 transition-all duration-300"
+              style={{ aspectRatio: "16/9" }}
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-[#1A1A1A] group-hover:bg-[#2D5BE3] transition-colors duration-300 flex items-center justify-center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <polygon points="6,3 20,12 6,21" />
+                  </svg>
+                </div>
+                <p className="text-[#1A1A1A]/40 text-sm font-medium group-hover:text-[#2D5BE3] transition-colors">
+                  Watch demo
+                </p>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="border-b border-[#1A1A1A]/[0.07] mb-6 flex gap-6">
+              {(["overview", "technical"] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className={`pb-3 text-sm font-medium transition-all duration-200 border-b-2 -mb-px ${
+                    tab === t
+                      ? "border-[#2D5BE3] text-[#2D5BE3]"
+                      : "border-transparent text-[#1A1A1A]/40 hover:text-[#1A1A1A]/70"
+                  }`}
+                >
+                  {t === "overview" ? "Overview" : "Technical info"}
+                </button>
+              ))}
+            </div>
+
+            {tab === "overview" && (
+              <div className="space-y-4">
+                {product.description.split("\n\n").map((para, i) => (
+                  <p
+                    key={i}
+                    className="text-[#1A1A1A]/60 text-sm leading-relaxed"
+                  >
+                    {para}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {tab === "technical" && (
+              <div className="space-y-6">
+                {product.stack.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30 mb-3">
+                      Tech stack
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.stack.map((s) => (
+                        <span
+                          key={s.id}
+                          className="text-xs px-2.5 py-1 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/50 border border-[#1A1A1A]/[0.07]"
+                        >
+                          {s.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {product.hosting.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30 mb-3">
+                      Hosting options
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.hosting.map((h) => (
+                        <span
+                          key={h.id}
+                          className="text-xs px-2.5 py-1 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/50 border border-[#1A1A1A]/[0.07]"
+                        >
+                          {h.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="border-t border-[#1A1A1A]/[0.05] my-8" />
+
+            {/* What's included */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30 mb-4">
+                What&apos;s included
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {(
+                  [
+                    {
+                      label: "Full source code",
+                      desc: "You own the code outright after purchase.",
+                    },
+                    product.setupIncluded
+                      ? {
+                          label: "Setup assistance",
+                          desc: "The seller helps you deploy and go live.",
+                        }
+                      : null,
+                    product.updatesIncluded
+                      ? {
+                          label: "Updates included",
+                          desc: "All future updates and bug fixes, forever.",
+                        }
+                      : null,
+                    {
+                      label: "Documentation",
+                      desc: "Full technical docs and a getting-started guide.",
+                    },
+                    {
+                      label: "No subscription, ever",
+                      desc: "Pay once. No lock-in, no price hikes.",
+                    },
+                  ] as ({ label: string; desc: string } | null)[]
+                )
+                  .filter(
+                    (item): item is { label: string; desc: string } =>
+                      item !== null,
+                  )
+                  .map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex gap-3 p-4 rounded-xl border border-[#1A1A1A]/[0.07] bg-white hover:border-[#2D5BE3]/20 hover:shadow-sm transition-all duration-200"
+                    >
+                      <span className="text-[#2D5BE3] font-bold text-sm mt-0.5 shrink-0">
+                        →
+                      </span>
+                      <div>
+                        <p className="text-[#1A1A1A] font-semibold text-sm">
+                          {item.label}
+                        </p>
+                        <p className="text-[#1A1A1A]/40 text-xs mt-0.5 leading-relaxed">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            <div className="border-t border-[#1A1A1A]/[0.05] my-8" />
+
+            {/* Seller */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30 mb-4">
+                Seller
+              </p>
+              <div className="flex items-center justify-between p-5 rounded-xl border border-[#1A1A1A]/[0.07] bg-white shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#1A1A1A] flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                    {product.seller.name?.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#1A1A1A] text-sm">
+                      @{product.seller.name}
+                    </p>
+                    <p className="text-[#1A1A1A]/35 text-xs">
+                      {product.sales} sales
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setContactOpen(true)}
+                  className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
+                >
+                  Contact →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Right sidebar ── */}
+          <aside>
+            <div
+              className="border border-[#1A1A1A]/[0.07] rounded-xl bg-white shadow-sm p-6 space-y-5"
+              style={{ position: "sticky", top: "2rem" }}
+            >
+              {/* Price */}
+              <div>
+                <p
+                  className="text-3xl font-bold text-[#1A1A1A]"
+                  style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
+                >
+                  {formatPrice(product.price)}
+                </p>
+                <p className="text-[#1A1A1A]/35 text-sm mt-0.5">
+                  one-time payment
+                </p>
+              </div>
+
+              {/* Feature badges */}
+              <div className="flex flex-wrap gap-1.5">
+                {product.updatesIncluded && (
+                  <span className="text-xs px-2.5 py-1 rounded-md bg-[#2D5BE3]/8 text-[#2D5BE3] border border-[#2D5BE3]/15">
+                    Updates included
+                  </span>
+                )}
+                {product.setupIncluded && (
+                  <span className="text-xs px-2.5 py-1 rounded-md bg-[#2D5BE3]/8 text-[#2D5BE3] border border-[#2D5BE3]/15">
+                    Setup included
+                  </span>
+                )}
+                <span className="text-xs px-2.5 py-1 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/40 border border-[#1A1A1A]/[0.07]">
+                  You own the code
+                </span>
+              </div>
+
+              <div className="border-t border-[#1A1A1A]/[0.05]" />
+
+              {/* CTAs */}
+              <div className="space-y-2.5">
+                <button className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200">
+                  Buy now — {formatPrice(product.price)}
+                </button>
+                <button
+                  onClick={() => setContactOpen(true)}
+                  className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
+                >
+                  Book a demo
+                </button>
+              </div>
+
+              <p className="text-[#1A1A1A]/25 text-xs text-center leading-relaxed">
+                Secure payment via Stripe.
+                <br />
+                Code delivered instantly after purchase.
+              </p>
+
+              {/* Stack + hosting in sidebar */}
+              {product.stack.length > 0 && (
+                <>
+                  <div className="border-t border-[#1A1A1A]/[0.05]" />
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/25 mb-2">
+                      Stack
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {product.stack.map((s) => (
+                        <span
+                          key={s.id}
+                          className="text-xs px-2 py-0.5 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/40 border border-[#1A1A1A]/[0.07]"
+                        >
+                          {s.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {product.hosting.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/25 mb-2">
+                    Hosting
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {product.hosting.map((h) => (
+                      <span
+                        key={h.id}
+                        className="text-xs px-2 py-0.5 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/40 border border-[#1A1A1A]/[0.07]"
+                      >
+                        {h.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
+    </>
+  );
+}
