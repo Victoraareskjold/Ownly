@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="relative z-10 border-t border-[#1A1A1A]/[0.07] bg-[#F7F5F0]/80 backdrop-blur-sm px-6 py-8">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
-        <span className="text-[#1A1A1A]/25 text-xs">© 2026 Ownly</span>
+        <span className="text-[#1A1A1A]/25 text-xs">© 2026 Ownie</span>
         <a
           href="https://x.com/ownieapp"
           target="_blank"

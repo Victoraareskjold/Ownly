@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Product } from "@/lib/types/product";
+import ContactSellerModal from "@/app/components/ContactSellerModal";
 
 interface ProductDetailPageClientProps {
   product: Product;
@@ -10,70 +11,6 @@ interface ProductDetailPageClientProps {
 
 function formatPrice(price: number) {
   return `$${price.toLocaleString()}`;
-}
-
-function ContactModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(4px)" }}
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md bg-white rounded-2xl p-8 border border-[#1A1A1A]/[0.07] shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3
-          className="text-2xl text-[#1A1A1A] mb-1 font-semibold"
-          /* style={{ fontFamily: "'Instrument Serif', Georgia, serif" }} */
-        >
-          Contact seller
-        </h3>
-        <p className="text-[#1A1A1A]/45 text-sm mb-6">
-          Book a demo or ask the seller a question.
-        </p>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
-              Name
-            </label>
-            <input
-              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
-              placeholder="Your name"
-            />
-          </div>
-          <div>
-            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
-              Email
-            </label>
-            <input
-              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
-              placeholder="you@company.com"
-            />
-          </div>
-          <div>
-            <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
-              Message
-            </label>
-            <textarea
-              rows={3}
-              className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 resize-none transition-colors bg-[#F7F5F0]"
-              placeholder="Tell us a bit about what you're looking for..."
-            />
-          </div>
-          <button className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200">
-            Send message
-          </button>
-        </div>
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 text-[#1A1A1A]/30 hover:text-[#1A1A1A]/70 text-lg transition-colors leading-none"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  );
 }
 
 export default function ProductDetailPageClient({
@@ -428,7 +365,13 @@ export default function ProductDetailPageClient({
         </div>
       </div>
 
-      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} />}
+      {contactOpen && (
+        <ContactSellerModal
+          onClose={() => setContactOpen(false)}
+          sellerName={product.seller.name}
+          productName={product.name}
+        />
+      )}
     </>
   );
 }
