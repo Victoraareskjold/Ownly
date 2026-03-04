@@ -17,7 +17,7 @@ export default function Navbar({ user }: { user: User | null }) {
           >
             own<span className="text-[#2D5BE3]">ie</span>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <Link
               href={user ? "/dashboard" : "/auth"}
               className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
@@ -32,7 +32,7 @@ export default function Navbar({ user }: { user: User | null }) {
             </Link>
             <Link
               href="/dashboard/products/new"
-              className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-semibold rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
+              className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-medium rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
             >
               List product
             </Link>
