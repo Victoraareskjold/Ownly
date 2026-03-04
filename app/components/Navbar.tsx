@@ -24,6 +24,12 @@ export default function Navbar({ user }: { user: User | null }) {
             >
               {user ? "Dashboard" : "Sign in"}
             </Link>
+            <Link
+              href="/profile"
+              className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
+            >
+              Profile
+            </Link>
             <button
               onClick={() => setIsOpen(true)}
               className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-semibold rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
