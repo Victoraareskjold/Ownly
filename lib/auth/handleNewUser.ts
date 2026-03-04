@@ -1,6 +1,10 @@
 import { createClient } from "@/lib/supabase/client";
 
-export async function handleNewUser(email: string, name: string, role: string) {
+export async function handleNewUser(
+  email: string,
+  name: string | null,
+  role: string,
+) {
   const supabase = createClient();
 
   const {
