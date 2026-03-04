@@ -8,6 +8,7 @@ import ContactSellerModal from "@/app/components/ContactSellerModal";
 interface ProductDetailPageClientProps {
   product: Product;
   conversationId: string | null;
+  userId: string;
 }
 
 function formatPrice(price: number) {
@@ -17,9 +18,12 @@ function formatPrice(price: number) {
 export default function ProductDetailPageClient({
   product,
   conversationId,
+  userId,
 }: ProductDetailPageClientProps) {
   const [contactOpen, setContactOpen] = useState(false);
   const [tab, setTab] = useState<"overview" | "technical">("overview");
+
+  const isMe = product.seller.id === userId;
 
   return (
     <>
@@ -265,6 +269,7 @@ export default function ProductDetailPageClient({
                   </Link>
                 ) : (
                   <button
+                    disabled={isMe}
                     onClick={() => setContactOpen(true)}
                     className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
                   >
@@ -315,7 +320,10 @@ export default function ProductDetailPageClient({
 
               {/* CTAs */}
               <div className="space-y-2.5">
-                <button className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200">
+                <button
+                  disabled={isMe}
+                  className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200"
+                >
                   Buy now — {formatPrice(product.price)}
                 </button>
                 {conversationId ? (
@@ -327,6 +335,7 @@ export default function ProductDetailPageClient({
                   </Link>
                 ) : (
                   <button
+                    disabled={isMe}
                     onClick={() => setContactOpen(true)}
                     className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
                   >
@@ -380,6 +389,13 @@ export default function ProductDetailPageClient({
                   </div>
                 </div>
               )}
+              {/* TODO {isMe && (
+                <button className="w-full p-1">
+                  <p className="text-blue-400 hover:text-blue-600 text-sm transition-colors duration-200">
+                    Edit page
+                  </p>
+                </button>
+              )} */}
             </div>
           </aside>
         </div>
