@@ -7,6 +7,7 @@ import ContactSellerModal from "@/app/components/ContactSellerModal";
 
 interface ProductDetailPageClientProps {
   product: Product;
+  conversationId: string | null;
 }
 
 function formatPrice(price: number) {
@@ -15,6 +16,7 @@ function formatPrice(price: number) {
 
 export default function ProductDetailPageClient({
   product,
+  conversationId,
 }: ProductDetailPageClientProps) {
   const [contactOpen, setContactOpen] = useState(false);
   const [tab, setTab] = useState<"overview" | "technical">("overview");
@@ -254,12 +256,21 @@ export default function ProductDetailPageClient({
                     </p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setContactOpen(true)}
-                  className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
-                >
-                  Contact →
-                </button>
+                {conversationId ? (
+                  <Link
+                    href={`/conversations/${conversationId}`}
+                    className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
+                  >
+                    Go to chat →
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setContactOpen(true)}
+                    className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
+                  >
+                    Contact →
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -307,12 +318,21 @@ export default function ProductDetailPageClient({
                 <button className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200">
                   Buy now — {formatPrice(product.price)}
                 </button>
-                <button
-                  onClick={() => setContactOpen(true)}
-                  className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
-                >
-                  Book a demo
-                </button>
+                {conversationId ? (
+                  <Link
+                    href={`/conversations/${conversationId}`}
+                    className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200 text-center block"
+                  >
+                    Go to chat
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setContactOpen(true)}
+                    className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
+                  >
+                    Book a demo
+                  </button>
+                )}
               </div>
 
               <p className="text-[#1A1A1A]/25 text-xs text-center leading-relaxed">
@@ -369,7 +389,9 @@ export default function ProductDetailPageClient({
         <ContactSellerModal
           onClose={() => setContactOpen(false)}
           sellerName={product.seller.name}
+          sellerId={product.seller.id}
           productName={product.name}
+          productId={product.id}
         />
       )}
     </>

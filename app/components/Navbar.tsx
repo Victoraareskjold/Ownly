@@ -19,10 +19,10 @@ export default function Navbar({ user }: { user: User | null }) {
           </Link>
           <div className="flex items-center gap-4">
             <Link
-              href="/auth"
+              href={user ? "/dashboard" : "/auth"}
               className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
             >
-              Sign in
+              {user ? "Dashboard" : "Sign in"}
             </Link>
             <button
               onClick={() => setIsOpen(true)}

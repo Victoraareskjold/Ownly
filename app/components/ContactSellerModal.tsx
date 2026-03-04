@@ -2,19 +2,25 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { buyerAuth, verifyBuyerOtp } from "@/lib/auth/buyerAuth";
+import { handleNewUser } from "@/lib/auth/handleNewUser";
 
 type Step = "form" | "otp" | "done";
 
 interface ContactSellerModalProps {
   onClose: () => void;
   sellerName: string;
+  sellerId: string;
   productName: string;
+  productId: string;
 }
 
 export default function ContactSellerModal({
   onClose,
   sellerName,
+  sellerId,
   productName,
+  productId,
 }: ContactSellerModalProps) {
   const supabase = createClient();
 
@@ -22,27 +28,26 @@ export default function ContactSellerModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  // OTP
   const [otp, setOtp] = useState("");
 
-  // Step 1 — submit form, send OTP
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const { error: otpError } = await supabase.auth.signInWithOtp({
-        email,
-        options: { shouldCreateUser: true, data: { role: "buyer" } },
-      });
-      if (otpError) throw otpError;
-      setStep("otp");
+      const user = await buyerAuth(email, name);
+      if (user) {
+        const userId = await handleNewUser(email, name, "seller");
+        await sendMessage(userId);
+        setStep("done");
+      } else {
+        setStep("otp");
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -50,29 +55,51 @@ export default function ContactSellerModal({
     }
   };
 
-  // Step 2 — verify OTP, then save message
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const { error: verifyError } = await supabase.auth.verifyOtp({
-        email,
-        token: otp,
-        type: "email",
-      });
-      if (verifyError) throw verifyError;
-
-      // TODO: insert message into DB here
-      // await supabase.from("messages").insert({ name, email, message, ... })
-
+      const userId = await verifyBuyerOtp(email, otp);
+      if (!userId) return;
+      await sendMessage(userId);
       setStep("done");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Invalid code. Try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const sendMessage = async (userId: string) => {
+    const { data: existing } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("product_id", productId)
+      .eq("buyer_id", userId)
+      .maybeSingle();
+
+    const conversationId =
+      existing?.id ??
+      (
+        await supabase
+          .from("conversations")
+          .insert({
+            product_id: productId,
+            buyer_id: userId,
+            seller_id: sellerId,
+          })
+          .select("id")
+          .maybeSingle()
+      ).data?.id;
+
+    const { error: messageError } = await supabase.from("messages").insert({
+      conversation_id: conversationId,
+      sender_id: userId,
+      content: message,
+    });
+    if (messageError) throw messageError;
   };
 
   const resendOtp = async () => {
