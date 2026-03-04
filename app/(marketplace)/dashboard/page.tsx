@@ -15,7 +15,7 @@ export default function DashboardPage() {
     window.location.reload();
   };
   return (
-    <div className="max-w-6xl min-h-screen mx-auto px-6 py-16">
+    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
       <button onClick={handleSignOut}>Sign out</button>
     </div>
   );

@@ -79,7 +79,7 @@ export default function ConversationPageClient({
   };
 
   return (
-    <div className="flex flex-col h-dvh max-w-2xl mx-auto">
+    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
       {/* Header */}
       <div className="shrink-0 flex items-center gap-3 px-6 py-4 border-b bg-background">
         <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-sm font-semibold text-muted-foreground">

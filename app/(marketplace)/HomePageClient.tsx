@@ -23,7 +23,7 @@ export default function HomePage({ initialProducts }: HomePageProps) {
   );
 
   return (
-    <div className="max-w-6xl min-h-screen mx-auto px-6 py-16">
+    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
       {/* Hero */}
       <div className="text-center mb-12">
         <h1

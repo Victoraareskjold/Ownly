@@ -5,17 +5,16 @@ import "../globals.css";
 
 export default async function MarketplaceLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   return (
-    <>
-      <main className="min-h-screen relative">
+    <div className="flex flex-col h-dvh">
+      <Navbar user={user} />
+      <main className="flex-1 overflow-hidden relative">
         <div
           className="pointer-events-none -z-10 fixed inset-0 opacity-[0.35]"
           style={{
@@ -23,10 +22,9 @@ export default async function MarketplaceLayout({
             backgroundSize: "48px 48px",
           }}
         />
-        <Navbar user={user} />
         {children}
-        <Footer />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }

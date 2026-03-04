@@ -23,7 +23,7 @@ export default function ProductDetailPageClient({
 
   return (
     <>
-      <div className="max-w-6xl min-h-screen mx-auto px-6 py-12">
+      <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 mb-8 font-medium">
           <Link href="/" className="hover:text-[#2D5BE3] transition-colors">

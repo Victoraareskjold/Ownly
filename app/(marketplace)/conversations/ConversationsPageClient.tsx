@@ -14,7 +14,7 @@ interface Props {
 
 export default function ConversationsPageClient({ conversations }: Props) {
   return (
-    <div className="max-w-2xl min-h-screen mx-auto px-6 py-12">
+    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
       <h1 className="text-2xl font-bold mb-6">Meldinger</h1>
 
       {conversations.length === 0 ? (
