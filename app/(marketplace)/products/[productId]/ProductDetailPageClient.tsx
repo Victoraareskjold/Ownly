@@ -27,7 +27,7 @@ export default function ProductDetailPageClient({
 
   return (
     <>
-      <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
+      <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 mb-8 font-medium">
           <Link href="/" className="hover:text-[#2D5BE3] transition-colors">
@@ -260,22 +260,23 @@ export default function ProductDetailPageClient({
                     </p>
                   </div>
                 </div>
-                {conversationId ? (
-                  <Link
-                    href={`/conversations/${conversationId}`}
-                    className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
-                  >
-                    Go to chat →
-                  </Link>
-                ) : (
-                  <button
-                    disabled={isMe}
-                    onClick={() => setContactOpen(true)}
-                    className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
-                  >
-                    Contact →
-                  </button>
-                )}
+                {!isMe &&
+                  (conversationId ? (
+                    <Link
+                      href={`/conversations/${conversationId}`}
+                      className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
+                    >
+                      Go to chat →
+                    </Link>
+                  ) : (
+                    <button
+                      disabled={isMe}
+                      onClick={() => setContactOpen(true)}
+                      className="text-xs font-medium text-[#2D5BE3] hover:underline transition-colors"
+                    >
+                      Contact →
+                    </button>
+                  ))}
               </div>
             </div>
           </div>
@@ -319,30 +320,32 @@ export default function ProductDetailPageClient({
               <div className="border-t border-[#1A1A1A]/[0.05]" />
 
               {/* CTAs */}
-              <div className="space-y-2.5">
-                <button
-                  disabled={isMe}
-                  className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200"
-                >
-                  Buy now — {formatPrice(product.price)}
-                </button>
-                {conversationId ? (
-                  <Link
-                    href={`/conversations/${conversationId}`}
-                    className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200 text-center block"
-                  >
-                    Go to chat
-                  </Link>
-                ) : (
+              {!isMe && (
+                <div className="space-y-2.5">
                   <button
                     disabled={isMe}
-                    onClick={() => setContactOpen(true)}
-                    className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
+                    className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200"
                   >
-                    Book a demo
+                    Buy now — {formatPrice(product.price)}
                   </button>
-                )}
-              </div>
+                  {conversationId ? (
+                    <Link
+                      href={`/conversations/${conversationId}`}
+                      className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200 text-center block"
+                    >
+                      Go to chat
+                    </Link>
+                  ) : (
+                    <button
+                      disabled={isMe}
+                      onClick={() => setContactOpen(true)}
+                      className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
+                    >
+                      Book a demo
+                    </button>
+                  )}
+                </div>
+              )}
 
               <p className="text-[#1A1A1A]/25 text-xs text-center leading-relaxed">
                 Secure payment via Stripe.

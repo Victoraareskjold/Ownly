@@ -15,7 +15,7 @@ interface Props {
 
 export default function ConversationsPageClient({ conversations }: Props) {
   return (
-    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12">
+    <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1A1A1A]">
