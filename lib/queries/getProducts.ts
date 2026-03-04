@@ -35,6 +35,7 @@ interface GetProductsParams {
   hostings?: string[];
   limit?: number;
   offset?: number;
+  sellerId?: string;
 }
 
 export async function getProducts(
@@ -48,6 +49,7 @@ export async function getProducts(
     hostings,
     limit = 20,
     offset = 0,
+    sellerId,
   } = params;
 
   let query = supabase.from("products").select(`
@@ -67,6 +69,7 @@ export async function getProducts(
   if (categories?.length) query = query.in("category", categories);
   if (stacks?.length) query = query.in("stack", stacks);
   if (hostings?.length) query = query.in("hosting", hostings);
+  if (sellerId?.length) query = query.eq("seller_id", sellerId);
 
   query = query
     .order("created_at", { ascending: false })

@@ -14,6 +14,7 @@ export default function ProfilePage() {
     }
     window.location.reload();
   };
+
   return (
     <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
       <button onClick={handleSignOut}>Sign out</button>

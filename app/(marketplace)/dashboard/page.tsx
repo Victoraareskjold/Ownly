@@ -1,7 +1,19 @@
-"use client";
+import { getProducts } from "@/lib/queries/getProducts";
+import { createClient } from "@/lib/supabase/server";
+import DashboardPageClient from "./DashboardPageClient";
 
-export default function DashboardPage() {
-  return (
-    <div className="max-w-6xl flex flex-col h-full mx-auto px-6 py-12"></div>
-  );
+export default async function ProfilePageClient() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const products = await getProducts({
+    limit: 20,
+    offset: 0,
+    sellerId: user?.id,
+  });
+
+  return <DashboardPageClient products={products} />;
 }
