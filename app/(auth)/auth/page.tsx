@@ -111,7 +111,7 @@ export default function AuthPage() {
     "w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200 disabled:opacity-50";
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-white via-white to-orange-50 px-4">
       <div className="bg-white shadow-xl rounded-2xl w-full max-w-md p-8 sm:p-12">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-semibold tracking-tight text-[#1A1A1A]">
