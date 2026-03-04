@@ -18,6 +18,7 @@ export function mapProductFromDb(row: any): Product {
     seller: {
       id: row.profiles?.id,
       name: row.profiles?.name,
+      sellerApproved: row.profiles?.seller_approved,
     },
   };
 }

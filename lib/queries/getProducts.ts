@@ -36,6 +36,7 @@ interface GetProductsParams {
   limit?: number;
   offset?: number;
   sellerId?: string;
+  onlyApproved?: boolean;
 }
 
 export async function getProducts(
@@ -50,6 +51,7 @@ export async function getProducts(
     limit = 20,
     offset = 0,
     sellerId,
+    onlyApproved = true,
   } = params;
 
   let query = supabase.from("products").select(`
@@ -62,7 +64,7 @@ export async function getProducts(
       updates_included,
       setup_included,
       created_at,
-      profiles (id, name)
+      profiles!inner(id, name, seller_approved)
     `);
 
   if (search) query = query.ilike("name", `%${search}%`);
@@ -70,6 +72,7 @@ export async function getProducts(
   if (stacks?.length) query = query.in("stack", stacks);
   if (hostings?.length) query = query.in("hosting", hostings);
   if (sellerId?.length) query = query.eq("seller_id", sellerId);
+  if (onlyApproved) query = query.eq("profiles.seller_approved", true);
 
   query = query
     .order("created_at", { ascending: false })
@@ -81,14 +84,13 @@ export async function getProducts(
   return (data ?? []).map(mapProductFromDb);
 }
 
-export async function getLatestProducts(limit = 20) {
+export async function getLatestProducts(limit = 20, onlyApproved = true) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("products")
     .select(
-      `
-      id,
+      `id,
       name,
       tagline,
       description,
@@ -97,15 +99,18 @@ export async function getLatestProducts(limit = 20) {
       updates_included,
       setup_included,
       created_at,
-      profiles (
+      profiles!inner(
         id,
-        name
-      )
-    `,
+        name,
+        seller_approved
+      )`,
     )
     .order("created_at", { ascending: false })
     .limit(limit);
 
+  if (onlyApproved) query = query.eq("profiles.seller_approved", true);
+
+  const { data, error } = await query;
   if (error) throw error;
 
   return (data ?? []).map(mapProductFromDb);

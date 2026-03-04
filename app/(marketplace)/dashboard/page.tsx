@@ -10,9 +10,8 @@ export default async function ProfilePageClient() {
   } = await supabase.auth.getUser();
 
   const products = await getProducts({
-    limit: 20,
-    offset: 0,
     sellerId: user?.id,
+    onlyApproved: false,
   });
 
   return <DashboardPageClient products={products} />;
