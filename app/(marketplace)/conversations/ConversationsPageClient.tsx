@@ -1,4 +1,5 @@
 "use client";
+import { formatDate } from "@/lib/utils/formatDate";
 import Link from "next/link";
 
 type ConversationItem = {
@@ -87,22 +88,4 @@ export default function ConversationsPageClient({ conversations }: Props) {
       )}
     </div>
   );
-}
-
-function formatDate(dateStr: string) {
-  if (!dateStr) return "";
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffDays = Math.floor(
-    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-  );
-  if (diffDays === 0)
-    return date.toLocaleTimeString("nb-NO", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  if (diffDays === 1) return "I går";
-  if (diffDays < 7)
-    return date.toLocaleDateString("nb-NO", { weekday: "long" });
-  return date.toLocaleDateString("nb-NO", { day: "numeric", month: "short" });
 }

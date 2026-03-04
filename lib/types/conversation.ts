@@ -1,10 +1,11 @@
-export type Conversation = {
+export type RawMessage = {
   id: string;
-  productId: string;
-  buyerId: string;
-  sellerId: string;
-  createdAt: string;
-  lastMessageAt: string;
+  conversation_id: string;
+  sender_id: string;
+  content: string;
+  created_at: string;
+  read_at: string | null;
+  profiles: { id: string; name: string } | null;
 };
 
 export type Message = {
@@ -13,5 +14,20 @@ export type Message = {
   senderId: string;
   content: string;
   createdAt: string;
-  readAt: string;
+  readAt: string | null;
+  profiles: { id: string; name: string } | null;
+};
+
+export type ConversationItem = {
+  id: string;
+  lastMessageAt: string;
+  products: { id: string; name: string; tagline: string } | null;
+  profiles: { id: string; name: string } | null;
+};
+
+export type Conversation = {
+  id: string;
+  products: { id: string; name: string; tagline: string } | null;
+  profiles: { id: string; name: string } | null;
+  messages: Message[];
 };

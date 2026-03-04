@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { sendMessage } from "@/lib/actions/sendMessage";
 import Link from "next/link";
+import { formatDate } from "@/lib/utils/formatDate";
 
 type MsgProfile = { id: string; name: string };
 type Msg = {
@@ -176,10 +177,7 @@ export default function ConversationPageClient({
                     {msg.content}
                   </div>
                   <span className="text-xs text-[#1A1A1A]/30 px-1">
-                    {new Date(msg.createdAt).toLocaleTimeString("nb-NO", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {formatDate(msg.createdAt)}
                   </span>
                 </div>
               </div>
