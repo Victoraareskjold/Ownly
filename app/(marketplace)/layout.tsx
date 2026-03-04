@@ -14,7 +14,7 @@ export default async function MarketplaceLayout({
   return (
     <div className="flex flex-col h-dvh">
       <Navbar user={user} />
-      <main className="flex-1 overflow-hidden relative">
+      <main className="flex-1 overflow-y-scroll relative">
         <div
           className="pointer-events-none -z-10 fixed inset-0 opacity-[0.35]"
           style={{

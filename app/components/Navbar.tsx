@@ -30,12 +30,12 @@ export default function Navbar({ user }: { user: User | null }) {
             >
               Profile
             </Link>
-            <button
-              onClick={() => setIsOpen(true)}
+            <Link
+              href="/dashboard/products/new"
               className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-semibold rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
             >
               List product
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
