@@ -135,7 +135,7 @@ export default function AuthPage() {
       const { error } = await supabase.auth.verifyOtp({
         email,
         token: otp,
-        type: "signup",
+        type: "email",
       });
       if (error) throw error;
       await handleNewUser(email, null, "seller");
@@ -253,7 +253,7 @@ export default function AuthPage() {
                   if (resendTimer > 0) return;
 
                   if (mode === "seller") {
-                    await supabase.auth.signInWithOtp({ email });
+                    await supabase.auth.signInWithOtp({ email, type: "signup" });
                   } else {
                     await buyerAuth(email, "");
                   }
