@@ -1,6 +1,7 @@
-import { RawMessage, Message } from "@/lib/types/conversation";
+import { Message } from "@/lib/types/conversation";
 
-export function mapMessage(m: RawMessage): Message {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function mapMessage(m: any): Message {
   return {
     id: m.id,
     conversationId: m.conversation_id,

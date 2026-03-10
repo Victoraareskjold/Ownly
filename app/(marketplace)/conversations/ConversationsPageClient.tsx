@@ -21,7 +21,7 @@ export default function ConversationsPageClient({ conversations }: Props) {
         <h1 className="text-2xl font-medium tracking-tight text-[#1A1A1A]">
           Messages
         </h1>
-        <p className="text-[#1A1A1A]/50 text-lg leading-relaxed">
+        <p className="text-[#1A1A1A]/50 text-md leading-relaxed">
           Conversations you have started with sellers.
         </p>
       </div>

@@ -1,23 +1,17 @@
-"use client";
-import { createClient } from "@/lib/supabase/client";
-import { toast } from "react-toastify";
+import { createClient } from "@/lib/supabase/server";
+import { getProfile } from "@/lib/queries/getProfile";
+import ProfilePageClient from "./ProfilePageClient";
 
-export default function ProfilePage() {
-  const supabase = createClient();
+export default async function ProfilePage() {
+  const supabase = await createClient();
 
-  const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast.error("Failed to sign out");
-      console.error(error);
-      throw error;
-    }
-    window.location.reload();
-  };
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  return (
-    <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
-      <button onClick={handleSignOut}>Sign out</button>
-    </div>
-  );
+  if (!user) return null;
+
+  const profile = await getProfile(user.id);
+
+  return <ProfilePageClient profile={profile} />;
 }

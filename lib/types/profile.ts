@@ -1,8 +1,12 @@
 export type Profile = {
   id: string;
   name: string;
-  team?: Team | null;
+  isTeam: boolean;
   sellerApproved: boolean;
+  email: string;
+  role: string;
+  stripeAccountId?: string;
+  createdAt: string;
 };
 
 export type Team = {
