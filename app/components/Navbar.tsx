@@ -25,6 +25,12 @@ export default function Navbar({ user }: { user: User | null }) {
               {user ? "Dashboard" : "Sign in"}
             </Link>
             <Link
+              href="/conversations"
+              className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
+            >
+              Messages
+            </Link>
+            <Link
               href="/profile"
               className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
             >

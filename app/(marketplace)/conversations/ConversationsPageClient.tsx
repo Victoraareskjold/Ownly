@@ -18,10 +18,10 @@ export default function ConversationsPageClient({ conversations }: Props) {
     <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1A1A1A]">
+        <h1 className="text-2xl font-medium tracking-tight text-[#1A1A1A]">
           Messages
         </h1>
-        <p className="text-[#1A1A1A]/50 text-lg leading-relaxed mt-2">
+        <p className="text-[#1A1A1A]/50 text-lg leading-relaxed">
           Conversations you have started with sellers.
         </p>
       </div>
