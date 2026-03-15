@@ -253,7 +253,12 @@ export default function AuthPage() {
                   if (resendTimer > 0) return;
 
                   if (mode === "seller") {
-                    await supabase.auth.signInWithOtp({ email, type: "signup" });
+                    await supabase.auth.signInWithOtp({
+                      email,
+                      options: {
+                        shouldCreateUser: true,
+                      },
+                    });
                   } else {
                     await buyerAuth(email, "");
                   }

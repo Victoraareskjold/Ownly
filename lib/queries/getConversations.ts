@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { RawMessage } from "../types/conversation";
 import { mapMessage } from "../mappers/conversationMapper";
 
 export async function getConversationId(productId: string, userId: string) {
@@ -60,6 +59,6 @@ export async function getConversation(conversationId: string) {
     id: data.id,
     products: data.products,
     profiles: data.profiles,
-    messages: (data.messages ?? []).map((m: RawMessage) => mapMessage(m)),
+    messages: (data.messages ?? []).map((m: unknown) => mapMessage(m)),
   };
 }

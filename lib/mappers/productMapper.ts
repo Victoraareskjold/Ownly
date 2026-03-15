@@ -17,8 +17,13 @@ export function mapProductFromDb(row: any): Product {
     hosting: [],
     seller: {
       id: row.profiles?.id,
+      isTeam: row.profiles?.isTeam,
       name: row.profiles?.name,
       sellerApproved: row.profiles?.seller_approved,
+      email: row.profiles?.email,
+      role: row.profiles?.role,
+      stripeAccountId: row.profiles?.stripe_account_id,
+      createdAt: row.profiles?.created_at,
     },
   };
 }
