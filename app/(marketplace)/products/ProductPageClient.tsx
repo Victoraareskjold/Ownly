@@ -75,7 +75,7 @@ export default function ProductsPageClient({
         />
       </div>
 
-      <ProductGrid products={filtered} gridCols={1} />
+      <ProductGrid products={filtered} gridCols={3} />
 
       <div className="text-center mt-6">
         <button

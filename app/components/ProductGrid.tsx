@@ -15,8 +15,10 @@ export default function ProductGrid({
     <div
       className={clsx("grid grid-cols-1 gap-4", {
         "md:grid-cols-1": gridCols === 1,
+        "md:grid-cols-2": gridCols === 2,
         "md:grid-cols-3": gridCols === 3,
         "md:grid-cols-4": gridCols === 4,
+        "md:grid-cols-5": gridCols === 5,
       })}
     >
       {products.map((product) => (
