@@ -3,6 +3,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import WishlistPage from "./(wishlist)/wishlist/page";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Ownie | Next-gen marketplace",
@@ -10,12 +11,14 @@ export const metadata: Metadata = {
     "Next-gen marketplace, connecting buyers & builders. Buy once, own forever.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  if (process.env.NEXT_PUBLIC_MODE === "wishlist") {
+  const invite = (await cookies()).get("ownie_invite");
+
+  if (process.env.NEXT_PUBLIC_MODE === "wishlist" && !invite) {
     return <WishlistPage />;
   }
 

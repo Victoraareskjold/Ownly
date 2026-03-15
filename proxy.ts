@@ -2,10 +2,20 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const PROTECTED_ROUTES = ["/dashboard", "/profile"];
+const INVITE_TOKEN = process.env.INVITE_TOKEN;
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  const invite = searchParams.get("invite");
+
+  if (invite && invite === INVITE_TOKEN) {
+    response.cookies.set("ownie_invite", "true", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
