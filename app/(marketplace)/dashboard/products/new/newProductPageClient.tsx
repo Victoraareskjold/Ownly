@@ -210,7 +210,7 @@ export default function NewProductPageClient({
                 className={inputClass}
               />
               <p className="text-xs text-[#1A1A1A]/30 mt-1.5">
-                One sentence. What it does and why it&quot;s better.
+                One sentence. What it does and why it&apos;s better.
               </p>
             </div>
 
@@ -238,12 +238,12 @@ export default function NewProductPageClient({
                   min="0"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  placeholder="25000"
+                  placeholder="2500"
                   className={`${inputClass} pl-10`}
                 />
               </div>
               <p className="text-xs text-[#1A1A1A]/30 mt-1.5">
-                Recommended: 15 00 - 50 00 $ for complete business systems.
+                Recommended: 1500 - 5000 $ for complete business systems.
               </p>
             </div>
 

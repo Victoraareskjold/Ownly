@@ -19,7 +19,7 @@ export async function getConversations(userId: string) {
     .select(
       `*, products (id, name, tagline), profiles!conversations_seller_id_fkey (id, name)`,
     )
-    .eq("buyer_id", userId)
+    .or(`buyer_id.eq.${userId},seller_id.eq.${userId}`)
     .order("last_message_at", { ascending: false });
 
   return (data ?? []).map((c) => ({

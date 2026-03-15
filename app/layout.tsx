@@ -11,6 +11,11 @@ export const metadata: Metadata = {
     "Next-gen marketplace, connecting buyers & builders. Buy once, own forever.",
 };
 
+// HUSK Å FJERNE ASYNC
+// TODO
+// HUSK Å FJERNE ASYNC
+// TODO
+
 export default async function RootLayout({
   children,
 }: Readonly<{
