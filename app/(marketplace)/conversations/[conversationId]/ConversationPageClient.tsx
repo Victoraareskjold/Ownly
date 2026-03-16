@@ -79,7 +79,7 @@ export default function ConversationPageClient({
   };
 
   return (
-    <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
+    <div className="max-w-6xl flex flex-col mx-auto px-6 py-12 h-full">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 mb-8 font-medium">
         <Link
