@@ -22,13 +22,12 @@ export default async function ProductDetailPage({
   if (user) {
     conversationId = await getConversationId(product.id, user.id);
   }
-  if (!user) return null;
 
   return (
     <ProductDetailPageClient
       product={product}
       conversationId={conversationId}
-      userId={user.id}
+      userId={user?.id ?? null}
     />
   );
 }

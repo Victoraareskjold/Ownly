@@ -8,7 +8,7 @@ import ContactSellerModal from "@/app/components/ContactSellerModal";
 interface ProductDetailPageClientProps {
   product: Product;
   conversationId: string | null;
-  userId: string;
+  userId: string | null;
 }
 
 function formatPrice(price: number) {
@@ -411,6 +411,7 @@ export default function ProductDetailPageClient({
           sellerId={product.seller.id}
           productName={product.name}
           productId={product.id}
+          userId={userId}
         />
       )}
     </>

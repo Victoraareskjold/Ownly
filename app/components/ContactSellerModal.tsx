@@ -13,6 +13,7 @@ interface ContactSellerModalProps {
   sellerId: string;
   productName: string;
   productId: string;
+  userId: string | null;
 }
 
 export default function ContactSellerModal({
@@ -21,6 +22,7 @@ export default function ContactSellerModal({
   sellerId,
   productName,
   productId,
+  userId,
 }: ContactSellerModalProps) {
   const supabase = createClient();
 
@@ -40,10 +42,16 @@ export default function ContactSellerModal({
     setLoading(true);
 
     try {
+      if (userId) {
+        await sendMessage(userId);
+        setStep("done");
+        return;
+      }
+
       const user = await buyerAuth(email, name);
       if (user) {
-        const userId = await handleNewUser(email, name, "seller");
-        await sendMessage(userId);
+        const user = await handleNewUser(email, name, "seller");
+        await sendMessage(user);
         setStep("done");
       } else {
         setStep("otp");
@@ -61,9 +69,9 @@ export default function ContactSellerModal({
     setLoading(true);
 
     try {
-      const userId = await verifyBuyerOtp(email, otp);
-      if (!userId) return;
-      await sendMessage(userId);
+      const user = await verifyBuyerOtp(email, otp);
+      if (!user) return;
+      await sendMessage(user);
       setStep("done");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Invalid code. Try again.");
@@ -72,12 +80,12 @@ export default function ContactSellerModal({
     }
   };
 
-  const sendMessage = async (userId: string) => {
+  const sendMessage = async (user: string) => {
     const { data: existing } = await supabase
       .from("conversations")
       .select("id")
       .eq("product_id", productId)
-      .eq("buyer_id", userId)
+      .eq("buyer_id", user)
       .maybeSingle();
 
     const conversationId =
@@ -87,7 +95,7 @@ export default function ContactSellerModal({
           .from("conversations")
           .insert({
             product_id: productId,
-            buyer_id: userId,
+            buyer_id: user,
             seller_id: sellerId,
           })
           .select("id")
@@ -96,7 +104,7 @@ export default function ContactSellerModal({
 
     const { error: messageError } = await supabase.from("messages").insert({
       conversation_id: conversationId,
-      sender_id: userId,
+      sender_id: user,
       content: message,
     });
     if (messageError) throw messageError;
@@ -135,31 +143,35 @@ export default function ContactSellerModal({
             </p>
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div>
-                <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
-                  Name
-                </label>
-                <input
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
-                  Work email
-                </label>
-                <input
-                  required
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
-                  placeholder="you@company.com"
-                />
-              </div>
+              {!userId && (
+                <>
+                  <div>
+                    <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
+                      Name
+                    </label>
+                    <input
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
+                      Work email
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 transition-colors bg-[#F7F5F0]"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+                </>
+              )}
               <div>
                 <label className="block text-[#1A1A1A]/50 text-xs mb-1.5 font-medium uppercase tracking-wide">
                   Message

@@ -51,7 +51,7 @@ export default function ProductsPageClient({
 
   return (
     <div className="max-w-6xl flex flex-col mx-auto px-6 py-12">
-      <div className="mb-8">
+      <div>
         <h1 className="text-2xl font-medium tracking-tight mb-2 text-[#1A1A1A]">
           Find your product
         </h1>
