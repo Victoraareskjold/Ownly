@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 type Option = { id: string; name: string };
 
@@ -53,7 +54,21 @@ export default function NewProductPageClient({
   };
 
   const handleSubmit = async () => {
-    if (!name || !tagline || !description || !price) return;
+    if (
+      !name ||
+      !tagline ||
+      !description ||
+      !price ||
+      Number(price) <= 0 ||
+      selectedCategories.length === 0 ||
+      selectedStacks.length === 0 ||
+      selectedHostings.length === 0 ||
+      !readmeUrl ||
+      !repoUrl
+    ) {
+      toast.warn("Please fill out all required fields.");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -248,7 +263,13 @@ export default function NewProductPageClient({
             </div>
 
             <div>
-              <label className={labelClass}>Category</label>
+              <label className="flex flex-row gap-1 items-center mb-1.5">
+                <p className={`${labelClass} !m-0`}>Category</p>
+                <span className="!text-xs !text-[#1A1A1A]/30">
+                  (You can select multiple)
+                </span>
+              </label>
+
               <div className="flex flex-wrap gap-2">
                 {categories.map((c) => (
                   <button
@@ -275,7 +296,12 @@ export default function NewProductPageClient({
         {step === 2 && (
           <>
             <div>
-              <label className={labelClass}>Tech stack</label>
+              <label className="flex flex-row gap-1 items-center mb-1.5">
+                <p className={`${labelClass} !m-0`}>Tech stack</p>
+                <span className="!text-xs !text-[#1A1A1A]/30">
+                  (You can select multiple)
+                </span>
+              </label>
               <div className="flex flex-wrap gap-2">
                 {stacks.map((s) => (
                   <button
@@ -297,7 +323,12 @@ export default function NewProductPageClient({
             </div>
 
             <div>
-              <label className={labelClass}>Hosting options</label>
+              <label className="flex flex-row gap-1 items-center mb-1.5">
+                <p className={`${labelClass} !m-0`}>Hosting options</p>
+                <span className="!text-xs !text-[#1A1A1A]/30">
+                  (You can select multiple)
+                </span>
+              </label>
               <div className="flex flex-wrap gap-2">
                 {hostings.map((h) => (
                   <button
@@ -320,15 +351,20 @@ export default function NewProductPageClient({
 
             <div className="border-t border-[#1A1A1A]/[0.05] pt-6 space-y-4">
               <div>
-                <label className={labelClass}>Demo URL</label>
+                <label className="flex flex-row gap-1 items-center mb-1.5">
+                  <p className={`${labelClass} !m-0`}>Demo URL</p>
+                  <span className="!text-xs !text-[#1A1A1A]/30">
+                    (Optional, but we highly recommend)
+                  </span>
+                </label>
                 <input
                   value={demoUrl}
                   onChange={(e) => setDemoUrl(e.target.value)}
-                  placeholder="https://demo.yourproduct.com or YouTube link"
+                  placeholder="https://demo.yourproduct.com"
                   className={inputClass}
                 />
                 <p className="text-xs text-[#1A1A1A]/30 mt-1.5">
-                  Required for approval. Live demo or video walkthrough.
+                  Live demo or video walkthrough. Youtube, loom etc.
                 </p>
               </div>
 
@@ -490,7 +526,18 @@ export default function NewProductPageClient({
           <button
             onClick={() => setStep((s) => (s + 1) as 1 | 2 | 3)}
             disabled={
-              step === 1 && (!name || !tagline || !description || !price)
+              (step === 1 &&
+                (!name ||
+                  !tagline ||
+                  !description ||
+                  !price ||
+                  Number(price) <= 0 ||
+                  selectedCategories.length === 0)) ||
+              (step === 2 &&
+                (selectedStacks.length === 0 ||
+                  selectedHostings.length === 0 ||
+                  !readmeUrl ||
+                  !repoUrl))
             }
             className="ml-auto px-6 py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200 disabled:opacity-40"
           >
@@ -507,7 +554,7 @@ export default function NewProductPageClient({
         )}
       </div>
 
-      <p className="text-center text-xs text-[#1A1A1A]/25 mt-4">
+      <p className="text-center text-xs text-[#1A1A1A]/25 pt-4 pb-12">
         Your product will be reviewed by the Ownie team before going live.
       </p>
     </div>

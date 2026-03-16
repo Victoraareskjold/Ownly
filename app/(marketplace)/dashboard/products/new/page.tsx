@@ -1,4 +1,3 @@
-// app/dashboard/products/new/page.tsx
 import { createClient } from "@/lib/supabase/server";
 import NewProductPageClient from "./newProductPageClient";
 
