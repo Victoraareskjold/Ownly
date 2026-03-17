@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -23,6 +23,7 @@ export default function NewProductPageClient({
 }: Props) {
   const supabase = createClient();
   const router = useRouter();
+  const topRef = useRef<HTMLDivElement>(null);
 
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);
@@ -125,6 +126,10 @@ export default function NewProductPageClient({
     }
   };
 
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [step]);
+
   const inputClass =
     "w-full border border-[#1A1A1A]/[0.12] rounded-lg px-4 py-2.5 text-[#1A1A1A] text-sm focus:outline-none focus:border-[#2D5BE3]/50 placeholder:text-[#1A1A1A]/25 bg-[#F7F5F0] transition-colors";
   const labelClass =
@@ -134,6 +139,7 @@ export default function NewProductPageClient({
 
   return (
     <div className="max-w-3xl flex flex-col h-full mx-auto px-6 py-12">
+      <div ref={topRef} />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 mb-8 font-medium">
         <Link
