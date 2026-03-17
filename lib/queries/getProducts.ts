@@ -17,6 +17,7 @@ export async function getProduct(id: string): Promise<Product | null> {
       updates_included,
       setup_included,
       created_at,
+      demo_url,
       profiles (id, name)
     `,
     )

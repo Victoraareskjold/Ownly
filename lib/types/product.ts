@@ -8,6 +8,7 @@ export type Product = {
   description: string;
   stack: ProductStack[];
   hosting: ProductHosting[];
+  demoUrl: string | null;
   updatesIncluded: boolean;
   setupIncluded: boolean;
   price: number;

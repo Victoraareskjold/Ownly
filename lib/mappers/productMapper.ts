@@ -11,6 +11,7 @@ export function mapProductFromDb(row: any): Product {
     sales: row.sales,
     updatesIncluded: row.updates_included,
     setupIncluded: row.setup_included,
+    demoUrl: row.demo_url,
     createdAt: row.created_at,
     category: [],
     stack: [],
