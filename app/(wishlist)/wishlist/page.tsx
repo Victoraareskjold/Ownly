@@ -324,7 +324,7 @@ export default function WishlistPage() {
       </div>
 
       {/* ── Stats ───────────────────────────────────────────────── */}
-      <section className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16">
+      {/* <section className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { value: 847, suffix: "+", label: "People waiting" },
@@ -348,7 +348,7 @@ export default function WishlistPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* ── Floating product previews ────────────────────────────── */}
       <section className="relative z-10 w-full max-w-6xl mx-auto px-6 py-8">
