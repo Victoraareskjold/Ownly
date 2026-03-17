@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { sendMessage } from "@/lib/actions/sendMessage";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils/formatDate";
+import { useMessages } from "@/lib/hooks/useMessages";
 
 type MsgProfile = { id: string; name: string };
 type Msg = {
@@ -30,7 +31,11 @@ export default function ConversationPageClient({
   conversation,
   userId,
 }: Props) {
-  const [messages, setMessages] = useState<Msg[]>(conversation?.messages ?? []);
+  const { messages, setMessages } = useMessages(
+    conversation?.id ?? "",
+    conversation?.messages ?? [],
+    conversation?.profiles ?? null,
+  );
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
