@@ -6,12 +6,15 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "react-toastify";
 import { buyerAuth, verifyBuyerOtp } from "@/lib/auth/buyerAuth";
 import { handleNewUser } from "@/lib/auth/handleNewUser";
+import { useSearchParams } from "next/navigation";
 
 type UserMode = "seller" | "buyer";
 type Step = "form" | "otp" | "done";
 
 export default function AuthPage() {
   const supabase = createClient();
+  const searchParams = useSearchParams();
+  const nextRoute = searchParams.get("next") || "/";
 
   const [mode, setMode] = useState<UserMode>("seller");
   const [step, setStep] = useState<Step>("form");
@@ -46,7 +49,7 @@ export default function AuthPage() {
       const user = await buyerAuth(email, "");
       if (user) {
         await handleNewUser(email, null, "buyer");
-        window.location.href = "/";
+        window.location.href = nextRoute;
       } else {
         setStep("otp");
         startResendTimer();
@@ -70,7 +73,7 @@ export default function AuthPage() {
       const userId = await verifyBuyerOtp(email, otp);
       if (!userId) return;
       await handleNewUser(email, null, "buyer");
-      window.location.href = "/";
+      window.location.href = nextRoute;
     } catch (err: unknown) {
       toast.error("Something went wrong.");
       console.error(
@@ -93,7 +96,7 @@ export default function AuthPage() {
         });
         if (error) throw error;
         await handleNewUser(email, null, "seller");
-        window.location.href = "/";
+        window.location.href = nextRoute;
       } else {
         if (password !== confirmPassword) {
           toast.error("Passwords do not match");
@@ -139,7 +142,7 @@ export default function AuthPage() {
       });
       if (error) throw error;
       await handleNewUser(email, null, "seller");
-      window.location.href = "/";
+      window.location.href = nextRoute;
     } catch (err: unknown) {
       toast.error(
         err instanceof Error ? err.message : "Invalid code. Try again.",

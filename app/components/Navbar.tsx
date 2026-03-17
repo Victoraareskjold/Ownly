@@ -24,20 +24,28 @@ export default function Navbar({ user }: { user: User | null }) {
             >
               {user ? "Dashboard" : "Sign in"}
             </Link>
+            {user && (
+              <>
+                <Link
+                  href="/conversations"
+                  className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
+                >
+                  Messages
+                </Link>
+                <Link
+                  href="/profile"
+                  className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
+                >
+                  Profile
+                </Link>
+              </>
+            )}
             <Link
-              href="/conversations"
-              className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
-            >
-              Messages
-            </Link>
-            <Link
-              href="/profile"
-              className="text-[#1A1A1A]/50 hover:text-[#1A1A1A] text-sm transition-colors"
-            >
-              Profile
-            </Link>
-            <Link
-              href="/dashboard/products/new"
+              href={
+                user
+                  ? "/dashboard/products/new"
+                  : "/auth?next=/dashboard/products/new"
+              }
               className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-medium rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
             >
               List product
