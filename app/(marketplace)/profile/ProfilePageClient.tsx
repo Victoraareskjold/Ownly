@@ -32,12 +32,21 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
 
   const rows = [
     { label: "Role", value: profile?.role },
-    { label: "Account type", value: profile?.isTeam ? "Team" : "Individual" },
-    {
-      label: "Seller approved",
-      value: profile?.sellerApproved ? "✓ Approved" : "Not approved",
-      highlight: profile?.sellerApproved,
-    },
+
+    ...(profile?.role !== "buyer"
+      ? [
+          {
+            label: "Account type",
+            value: profile?.isTeam ? "Team" : "Individual",
+          },
+          {
+            label: "Seller approved",
+            value: profile?.sellerApproved ? "✓ Approved" : "Not approved",
+            highlight: profile?.sellerApproved,
+          },
+        ]
+      : []),
+
     {
       label: "Member since",
       value: profile?.createdAt
