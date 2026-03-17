@@ -409,7 +409,7 @@ export default function NewProductPageClient({
         {/* ── Step 3: What's included ── */}
         {step === 3 && (
           <>
-            <p className="text-xs text-[#1A1A1A]/40 -mt-2">
+            <p className="text-sm text-[#1A1A1A]/70">
               Every product on Ownie includes full source code, documentation,
               and no subscription. Tell buyers what else is included.
             </p>
@@ -420,7 +420,7 @@ export default function NewProductPageClient({
                 value: updatesIncluded,
                 set: setUpdatesIncluded,
                 label: "Updates included",
-                desc: "You commit to delivering all future updates and bug fixes to buyers — free, forever.",
+                desc: "You commit to delivering all future updates and bug fixes to buyers free, forever.",
               },
               {
                 key: "setup",
