@@ -19,7 +19,7 @@ export default function EmailForm({
   return (
     <>
       {!submitted ? (
-        <form onSubmit={handleSubmit} className="w-full max-w-md">
+        <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto">
           <div
             className={`flex flex-col md:flex-row border rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
               focused
@@ -45,9 +45,9 @@ export default function EmailForm({
               Get early access
             </button>
           </div>
-          <p className="text-[#1A1A1A]/40 text-xs mt-3">
+          {/* <p className="text-[#1A1A1A]/40 text-xs mt-3">
             No spam. We&apos;ll let you know when we launch.
-          </p>
+          </p> */}
         </form>
       ) : (
         <div className="w-full max-w-md border border-[#2D5BE3]/20 bg-[#2D5BE3]/5 rounded-xl px-6 py-5 text-center">
