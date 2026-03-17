@@ -66,7 +66,6 @@ export default function ProductDetailPageClient({
                   </span>
                 ))}
               </div>
-
               <h1
                 className="text-4xl md:text-5xl font-semibold tracking-tight text-[#1A1A1A] mb-3"
                 /* style={{ fontFamily: "'Instrument Serif', Georgia, serif" }} */
@@ -304,6 +303,13 @@ export default function ProductDetailPageClient({
               className="border border-[#1A1A1A]/[0.07] rounded-xl bg-white shadow-sm p-6 space-y-5"
               style={{ position: "sticky", top: "2rem" }}
             >
+              {isMe && (
+                <div className="px-2.5 mb-4 w-full text-center py-3 rounded-md bg-orange-200/50 border border-orange-300">
+                  <p className="text-sm text-orange-500">
+                    This is a preview of your product
+                  </p>
+                </div>
+              )}
               {/* Price */}
               <div>
                 <p
