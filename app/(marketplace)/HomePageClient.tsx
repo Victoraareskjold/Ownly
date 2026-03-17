@@ -49,15 +49,38 @@ export default function HomePage({ initialProducts }: HomePageProps) {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <>
-          <ProductGrid products={filtered} />
+        <div className="flex flex-col gap-5">
+          <div>
+            <div className="flex flex-row items-center justify-between p-1">
+              <p className="block text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30">
+                Latest products
+              </p>
+              <Link href={"/products"} className="text-xs text-[#1A1A1A]/50">
+                See all
+                <span className="text-sm ml-1 shrink-0">→</span>
+              </Link>
+            </div>
+            <ProductGrid products={filtered} />
+          </div>
+          <div>
+            <div className="flex flex-row items-center justify-between p-1">
+              <p className="block text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30">
+                Weekly featured
+              </p>
+              <Link href={"/products"} className="text-xs text-[#1A1A1A]/50">
+                See all
+                <span className="text-sm ml-1 shrink-0">→</span>
+              </Link>
+            </div>
+            <ProductGrid products={filtered} />
+          </div>
           <Link
             href={"/products"}
             className="bg-[#1A1A1A] text-white rounded-full text-sm mt-6 font-medium block mx-auto w-40 text-center p-2"
           >
             View all products
           </Link>
-        </>
+        </div>
       ) : (
         <div className="text-center py-24 text-[#1A1A1A]/25">
           <p
