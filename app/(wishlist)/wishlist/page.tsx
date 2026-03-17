@@ -665,9 +665,7 @@ export default function WishlistPage() {
           <span className="italic text-[#2D5BE3]">before we open.</span>
         </h2>
         <p className="text-[#1A1A1A]/45 mb-10 max-w-md mx-auto">
-          Be the first to know when Ownie launches. Early buyers get a{" "}
-          <strong className="text-[#1A1A1A]">priority queue</strong> and
-          potential launch discounts from sellers.
+          Be the first to know when Ownie launches.
         </p>
 
         <EmailForm
