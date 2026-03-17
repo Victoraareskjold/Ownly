@@ -66,17 +66,17 @@ export default function ConversationsPageClient({ conversations }: Props) {
                     <span className="font-semibold text-sm text-[#1A1A1A] truncate">
                       {convo.products?.name ?? "Unknown product"}
                     </span>
-                    <span className="text-xs text-[#1A1A1A]/35 whitespace-nowrap">
-                      {formatDate(convo.lastMessageAt)}
-                    </span>
                   </div>
                   <p className="text-xs text-[#1A1A1A]/40 truncate mt-0.5">
-                    Selger:{" "}
+                    Seller:{" "}
                     <span className="text-[#1A1A1A]/60">
-                      @{convo.profiles?.name ?? "UUnknown"}
+                      @{convo.profiles?.name ?? "Unknown"}
                     </span>
                   </p>
                 </div>
+                <span className="text-xs text-[#1A1A1A]/35 whitespace-nowrap">
+                  {formatDate(convo.lastMessageAt)}
+                </span>
 
                 <span className="text-[#1A1A1A]/20 group-hover:text-[#2D5BE3] transition-colors duration-200 text-sm">
                   →

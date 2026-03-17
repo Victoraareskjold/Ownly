@@ -364,7 +364,7 @@ export default function ProductDetailPageClient({
                       onClick={() => setContactOpen(true)}
                       className="w-full py-3 rounded-full border border-[#1A1A1A]/[0.12] text-[#1A1A1A] font-medium text-sm hover:border-[#2D5BE3]/40 hover:text-[#2D5BE3] transition-all duration-200"
                     >
-                      Book a demo
+                      Contact seller
                     </button>
                   )}
                 </div>
