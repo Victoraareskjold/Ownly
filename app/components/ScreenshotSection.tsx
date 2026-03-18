@@ -16,7 +16,7 @@ export default function ScreenshotSection({
     <div>
       {/* Main image */}
       <div
-        className="relative w-full rounded-xl border border-[#1A1A1A]/[0.07] bg-white overflow-hidden mb-2"
+        className="relative w-full rounded-xl border border-[#1A1A1A]/[0.07] bg-white/60 overflow-hidden mb-2"
         style={{ aspectRatio: "16/9" }}
       >
         <Image
