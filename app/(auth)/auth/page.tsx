@@ -135,12 +135,17 @@ export default function AuthPage() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.verifyOtp({
+      const { data, error } = await supabase.auth.verifyOtp({
         email,
         token: otp,
         type: "email",
       });
       if (error) throw error;
+
+      if (!data.user?.email_confirmed_at) {
+        throw new Error("Email not confirmed");
+      }
+
       await handleNewUser(email, null, "seller");
       window.location.href = nextRoute;
     } catch (err: unknown) {
@@ -273,16 +278,18 @@ export default function AuthPage() {
                 {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend"}
               </button>
               {" · "}
-              <button
-                type="button"
-                onClick={() => {
-                  setStep("form");
-                  setOtp("");
-                }}
-                className="text-[#2D5BE3] hover:underline"
-              >
-                Go back
-              </button>
+              {(mode === "buyer" || isLogin) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("form");
+                    setOtp("");
+                  }}
+                  className="text-[#2D5BE3] hover:underline"
+                >
+                  Go back
+                </button>
+              )}
             </p>
           </>
         )}
