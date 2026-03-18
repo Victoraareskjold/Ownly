@@ -55,8 +55,8 @@ export async function getProducts(
     onlyApproved = true,
   } = params;
 
-  let query = supabase.from("products").select(`
-      id,
+  let query = supabase.from("products").select(
+    `id,
       name,
       tagline,
       description,
@@ -65,8 +65,21 @@ export async function getProducts(
       updates_included,
       setup_included,
       created_at,
-      profiles!inner(id, name, seller_approved)
-    `);
+      profiles!inner(
+        id,
+        name,
+        seller_approved
+      ),
+      product_to_categories(
+        product_categories(id, name)
+      ),
+      product_to_stacks(
+        product_stacks(id, name)
+      ),
+      product_to_hostings(
+        product_hostings(id, name)
+      )`,
+  );
 
   if (search) query = query.ilike("name", `%${search}%`);
   if (categories?.length) query = query.in("category", categories);
