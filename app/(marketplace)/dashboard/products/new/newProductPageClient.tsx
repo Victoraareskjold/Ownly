@@ -64,6 +64,9 @@ export default function NewProductPageClient({
       selectedCategories.length === 0 ||
       selectedStacks.length === 0 ||
       selectedHostings.length === 0 ||
+      selectedCategories.length > 3 ||
+      selectedStacks.length > 5 ||
+      selectedHostings.length > 5 ||
       !readmeUrl ||
       !repoUrl
     ) {
@@ -284,19 +287,28 @@ export default function NewProductPageClient({
                   <button
                     key={c.id}
                     type="button"
+                    disabled={
+                      selectedCategories.length >= 3 &&
+                      !selectedCategories.includes(c.id)
+                    }
                     onClick={() =>
                       toggle(c.id, selectedCategories, setSelectedCategories)
                     }
                     className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200 ${
                       selectedCategories.includes(c.id)
                         ? "bg-[#2D5BE3] text-white border-[#2D5BE3]"
-                        : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
+                        : selectedCategories.length >= 3
+                          ? "opacity-30 cursor-not-allowed bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07]"
+                          : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
                     }`}
                   >
                     {c.name}
                   </button>
                 ))}
               </div>
+              <p className="text-xs text-[#1A1A1A]/30 mt-2">
+                {selectedCategories.length}/3 selected
+              </p>
             </div>
           </>
         )}
@@ -316,19 +328,28 @@ export default function NewProductPageClient({
                   <button
                     key={s.id}
                     type="button"
+                    disabled={
+                      selectedStacks.length >= 5 &&
+                      !selectedStacks.includes(s.id)
+                    }
                     onClick={() =>
                       toggle(s.id, selectedStacks, setSelectedStacks)
                     }
                     className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200 ${
                       selectedStacks.includes(s.id)
                         ? "bg-[#2D5BE3] text-white border-[#2D5BE3]"
-                        : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
+                        : selectedStacks.length >= 5
+                          ? "opacity-30 cursor-not-allowed bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07]"
+                          : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
                     }`}
                   >
                     {s.name}
                   </button>
                 ))}
               </div>
+              <p className="text-xs text-[#1A1A1A]/30 mt-2">
+                {selectedStacks.length}/5 selected
+              </p>
             </div>
 
             <div>
@@ -343,19 +364,28 @@ export default function NewProductPageClient({
                   <button
                     key={h.id}
                     type="button"
+                    disabled={
+                      selectedHostings.length >= 5 &&
+                      !selectedHostings.includes(h.id)
+                    }
                     onClick={() =>
                       toggle(h.id, selectedHostings, setSelectedHostings)
                     }
                     className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200 ${
                       selectedHostings.includes(h.id)
                         ? "bg-[#2D5BE3] text-white border-[#2D5BE3]"
-                        : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
+                        : selectedHostings.length >= 5
+                          ? "opacity-30 cursor-not-allowed bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07]"
+                          : "bg-[#F7F5F0] text-[#1A1A1A]/50 border-[#1A1A1A]/[0.07] hover:border-[#2D5BE3]/30"
                     }`}
                   >
                     {h.name}
                   </button>
                 ))}
               </div>
+              <p className="text-xs text-[#1A1A1A]/30 mt-2">
+                {selectedHostings.length}/5 selected
+              </p>
             </div>
 
             <div className="border-t border-[#1A1A1A]/[0.05] pt-6 space-y-4">
