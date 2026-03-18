@@ -60,7 +60,7 @@ export default function NewProductPageClient({
       !tagline ||
       !description ||
       !price ||
-      Number(price) <= 0 ||
+      Number(price) < 300 ||
       selectedCategories.length === 0 ||
       selectedStacks.length === 0 ||
       selectedHostings.length === 0 ||
@@ -256,7 +256,8 @@ export default function NewProductPageClient({
                 </span>
                 <input
                   type="number"
-                  min="0"
+                  min="300"
+                  max="100000"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="2500"
@@ -264,7 +265,9 @@ export default function NewProductPageClient({
                 />
               </div>
               <p className="text-xs text-[#1A1A1A]/30 mt-1.5">
-                Recommended: 1500 - 5000 $ for complete business systems.
+                Minimum $300. Recommended: 500 - 15 000 $ for complete business
+                systems.{" "}
+                <span className="italic">Ownie will take a 3% fee.</span>
               </p>
             </div>
 
@@ -537,7 +540,7 @@ export default function NewProductPageClient({
                   !tagline ||
                   !description ||
                   !price ||
-                  Number(price) <= 0 ||
+                  Number(price) < 300 ||
                   selectedCategories.length === 0)) ||
               (step === 2 &&
                 (selectedStacks.length === 0 ||
