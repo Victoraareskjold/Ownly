@@ -13,7 +13,7 @@ export default function ScreenshotSection({
   setActiveScreenshot,
 }: ScreenshotSectionProps) {
   return (
-    <div className="mb-8">
+    <div>
       {/* Main image */}
       <div
         className="relative w-full rounded-xl border border-[#1A1A1A]/[0.07] bg-white overflow-hidden mb-2"

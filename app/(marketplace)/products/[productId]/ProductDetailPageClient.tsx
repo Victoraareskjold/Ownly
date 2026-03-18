@@ -24,7 +24,6 @@ export default function ProductDetailPageClient({
 }: ProductDetailPageClientProps) {
   const [contactOpen, setContactOpen] = useState(false);
   const [tab, setTab] = useState<"overview" | "technical">("overview");
-  const [playVideo, setPlayVideo] = useState(false);
   const [activeScreenshot, setActiveScreenshot] = useState(0);
 
   const isMe = product.seller.id === userId;
@@ -104,18 +103,9 @@ export default function ProductDetailPageClient({
                 setActiveScreenshot={setActiveScreenshot}
               />
             )}
-            {hasVideo && product.demoUrl && (
-              <DemoVideoSection
-                demoUrl={product.demoUrl}
-                playVideo={playVideo}
-                setPlayVideo={setPlayVideo}
-              />
-            )}
-
-            {!hasVideo && !hasScreenshots && <div className="mb-8" />}
 
             {/* Tabs */}
-            <div className="border-b border-[#1A1A1A]/[0.07] mb-6 flex gap-6">
+            <div className="border-b border-[#1A1A1A]/[0.07] my-6 flex gap-6">
               {(["overview", "technical"] as const).map((t) => (
                 <button
                   key={t}
@@ -183,10 +173,14 @@ export default function ProductDetailPageClient({
               </div>
             )}
 
-            <div className="border-t border-[#1A1A1A]/[0.05] my-8" />
+            <div className="border-t border-[#1A1A1A]/[0.05] mt-12" />
+
+            {hasVideo && product.demoUrl && (
+              <DemoVideoSection demoUrl={product.demoUrl} />
+            )}
 
             {/* What's included */}
-            <div>
+            <div className="mt-12">
               <p className="text-xs font-semibold uppercase tracking-widest text-[#1A1A1A]/30 mb-4">
                 What&apos;s included
               </p>
