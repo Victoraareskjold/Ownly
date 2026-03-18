@@ -19,17 +19,17 @@ export type Product = {
 
 export type ProductCategory = {
   id: string;
-  name: string;
+  name?: string;
 };
 
 export type ProductStack = {
   id: string;
-  name: string;
+  name?: string;
 };
 
 export type ProductHosting = {
   id: string;
-  name: string;
+  name?: string;
 };
 
 export interface ProductFilters {
