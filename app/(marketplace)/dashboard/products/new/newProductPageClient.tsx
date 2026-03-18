@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import ScreenshotUploader from "@/app/components/screenshotUploader";
+import { compressImage } from "@/lib/utils/compressImage";
 
 type Option = { id: string; name: string };
 
@@ -41,6 +43,7 @@ export default function NewProductPageClient({
   const [demoUrl, setDemoUrl] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
   const [readmeUrl, setReadmeUrl] = useState("");
+  const [screenshots, setScreenshots] = useState<File[]>([]);
 
   // Step 3 — Included
   const [updatesIncluded, setUpdatesIncluded] = useState(false);
@@ -95,7 +98,6 @@ export default function NewProductPageClient({
 
       if (error) throw error;
 
-      // Insert junction records
       if (selectedCategories.length) {
         await supabase.from("product_to_categories").insert(
           selectedCategories.map((id) => ({
@@ -119,6 +121,39 @@ export default function NewProductPageClient({
             hosting_id: id,
           })),
         );
+      }
+
+      if (screenshots.length > 0) {
+        const uploadedUrls: { url: string; position: number }[] = [];
+
+        for (let i = 0; i < screenshots.length; i++) {
+          const compressed = await compressImage(screenshots[i]);
+          const path = `${product.id}/${i}.webp`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("product-screenshots")
+            .upload(path, compressed, {
+              contentType: "image/webp",
+              upsert: false,
+            });
+          if (uploadError) throw uploadError;
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("product-screenshots").getPublicUrl(path);
+          uploadedUrls.push({ url: publicUrl, position: i });
+        }
+
+        const { error: screenshotError } = await supabase
+          .from("product_screenshots")
+          .insert(
+            uploadedUrls.map(({ url, position }) => ({
+              product_id: product.id,
+              url,
+              position,
+            })),
+          );
+        if (screenshotError) throw screenshotError;
       }
 
       router.push(`/products/${product.id}`);
@@ -405,6 +440,14 @@ export default function NewProductPageClient({
                 <p className="text-xs text-[#1A1A1A]/30 mt-1.5">
                   Live demo or video walkthrough. Youtube, loom etc.
                 </p>
+              </div>
+
+              <div>
+                <label className={labelClass}>Screenshots</label>
+                <ScreenshotUploader
+                  files={screenshots}
+                  setFiles={setScreenshots}
+                />
               </div>
 
               <div>

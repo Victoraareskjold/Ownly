@@ -15,6 +15,13 @@ export type Product = {
   sales: number;
   seller: Profile;
   createdAt: string;
+  screenshots: Screenshot[];
+};
+
+export type Screenshot = {
+  id: string;
+  url: string;
+  position: number;
 };
 
 export type ProductCategory = {

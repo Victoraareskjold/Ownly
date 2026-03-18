@@ -18,7 +18,8 @@ export async function getProduct(id: string): Promise<Product | null> {
       setup_included,
       created_at,
       demo_url,
-      profiles (id, name, seller_approved)
+      profiles (id, name, seller_approved),
+      product_screenshots(id, url, position)
     `,
     )
     .eq("id", id)

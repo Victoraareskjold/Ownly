@@ -4,7 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Product } from "@/lib/types/product";
 import ContactSellerModal from "@/app/components/ContactSellerModal";
-import { getEmbedUrl } from "@/lib/helpers/getEmbedUrl";
+import ScreenshotSection from "@/app/components/ScreenshotSection";
+import DemoVideoSection from "@/app/components/DemoVideoSection";
 
 interface ProductDetailPageClientProps {
   product: Product;
@@ -24,8 +25,11 @@ export default function ProductDetailPageClient({
   const [contactOpen, setContactOpen] = useState(false);
   const [tab, setTab] = useState<"overview" | "technical">("overview");
   const [playVideo, setPlayVideo] = useState(false);
+  const [activeScreenshot, setActiveScreenshot] = useState(0);
 
   const isMe = product.seller.id === userId;
+  const hasVideo = product.demoUrl;
+  const hasScreenshots = product.screenshots?.length > 0;
 
   return (
     <>
@@ -93,37 +97,22 @@ export default function ProductDetailPageClient({
               </div>
             </div>
 
-            {/* Demo placeholder */}
-            <div
-              className="w-full rounded-xl border border-[#1A1A1A]/[0.07] bg-[#F7F5F0] flex items-center justify-center cursor-pointer group mb-8 hover:border-[#2D5BE3]/30 transition-all duration-300"
-              style={{ aspectRatio: "16/9" }}
-              onClick={() => setPlayVideo(true)}
-            >
-              {playVideo && product.demoUrl ? (
-                <iframe
-                  src={getEmbedUrl(product.demoUrl)}
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full rounded-xl"
-                ></iframe>
-              ) : (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#1A1A1A] group-hover:bg-[#2D5BE3] transition-colors duration-300 flex items-center justify-center">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="white"
-                    >
-                      <polygon points="6,3 20,12 6,21" />
-                    </svg>
-                  </div>
-                  <p className="text-[#1A1A1A]/40 text-sm font-medium group-hover:text-[#2D5BE3] transition-colors">
-                    Watch demo
-                  </p>
-                </div>
-              )}
-            </div>
+            {hasScreenshots && (
+              <ScreenshotSection
+                screenshots={product.screenshots}
+                activeScreenshot={activeScreenshot}
+                setActiveScreenshot={setActiveScreenshot}
+              />
+            )}
+            {hasVideo && product.demoUrl && (
+              <DemoVideoSection
+                demoUrl={product.demoUrl}
+                playVideo={playVideo}
+                setPlayVideo={setPlayVideo}
+              />
+            )}
+
+            {!hasVideo && !hasScreenshots && <div className="mb-8" />}
 
             {/* Tabs */}
             <div className="border-b border-[#1A1A1A]/[0.07] mb-6 flex gap-6">

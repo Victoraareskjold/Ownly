@@ -35,5 +35,8 @@ export function mapProductFromDb(data: any): Product {
       id: r.product_hostings.id,
       name: r.product_hostings.name,
     })),
+    screenshots: (data.product_screenshots ?? [])
+      .sort((a: any, b: any) => a.position - b.position)
+      .map((s: any) => ({ id: s.id, url: s.url, position: s.position })),
   };
 }
