@@ -104,6 +104,15 @@ export async function getLatestProducts(limit = 20, onlyApproved = true) {
         id,
         name,
         seller_approved
+      ),
+      product_to_categories(
+        product_categories(id, name)
+      ),
+      product_to_stacks(
+        product_stacks(id, name)
+      ),
+      product_to_hostings(
+        product_hostings(id, name)
       )`,
     )
     .order("created_at", { ascending: false })

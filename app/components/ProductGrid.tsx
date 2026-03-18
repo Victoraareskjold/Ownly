@@ -1,3 +1,7 @@
+import {
+  CATEGORY_COLORS,
+  DEFAULT_CATEGORY_COLOR,
+} from "@/lib/constants/categoryColors";
 import { Product } from "@/lib/types/product";
 import clsx from "clsx";
 import Link from "next/link";
@@ -11,6 +15,7 @@ export default function ProductGrid({
   products,
   gridCols = 3,
 }: ProductGridProps) {
+  console.log(products);
   return (
     <div
       className={clsx("grid grid-cols-1 gap-4", {
@@ -47,14 +52,17 @@ export default function ProductGrid({
                 </p>
               )}
             </div>
-            {product.category.map((cat) => (
-              <span
-                key={cat.id}
-                className="shrink-0 text-xs bg-[#F7F5F0] border border-[#1A1A1A]/[0.07] text-[#1A1A1A]/40 px-2 py-1 rounded-md"
-              >
-                {cat.name}
-              </span>
-            ))}
+            {product.category.map((cat) => {
+              const color = CATEGORY_COLORS[cat.id] ?? DEFAULT_CATEGORY_COLOR;
+              return (
+                <span
+                  key={cat.id}
+                  className={`shrink-0 text-xs px-2 py-1 rounded-md border ${color.bg} ${color.text} ${color.border}`}
+                >
+                  {cat.name}
+                </span>
+              );
+            })}
           </div>
 
           <div className="flex flex-wrap gap-1.5">

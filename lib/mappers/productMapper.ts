@@ -1,30 +1,39 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "@/lib/types/product";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function mapProductFromDb(row: any): Product {
+export function mapProductFromDb(data: any): Product {
   return {
-    id: row.id,
-    name: row.name,
-    tagline: row.tagline,
-    description: row.description,
-    price: row.price,
-    sales: row.sales,
-    updatesIncluded: row.updates_included,
-    setupIncluded: row.setup_included,
-    demoUrl: row.demo_url,
-    createdAt: row.created_at,
-    category: [],
-    stack: [],
-    hosting: [],
+    id: data.id,
+    name: data.name,
+    tagline: data.tagline,
+    description: data.description,
+    price: data.price,
+    sales: data.sales,
+    updatesIncluded: data.updates_included,
+    setupIncluded: data.setup_included,
+    demoUrl: data.demo_url,
+    createdAt: data.created_at,
     seller: {
-      id: row.profiles?.id,
-      isTeam: row.profiles?.isTeam,
-      name: row.profiles?.name,
-      sellerApproved: row.profiles?.seller_approved,
-      email: row.profiles?.email,
-      role: row.profiles?.role,
-      stripeAccountId: row.profiles?.stripe_account_id,
-      createdAt: row.profiles?.created_at,
+      id: data.profiles?.id,
+      isTeam: data.profiles?.isTeam,
+      name: data.profiles?.name,
+      sellerApproved: data.profiles?.seller_approved,
+      email: data.profiles?.email,
+      role: data.profiles?.role,
+      stripeAccountId: data.profiles?.stripe_account_id,
+      createdAt: data.profiles?.created_at,
     },
+    category: (data.product_to_categories ?? []).map((r: any) => ({
+      id: r.product_categories.id,
+      name: r.product_categories.name,
+    })),
+    stack: (data.product_to_stacks ?? []).map((r: any) => ({
+      id: r.product_stacks.id,
+      name: r.product_stacks.name,
+    })),
+    hosting: (data.product_to_hostings ?? []).map((r: any) => ({
+      id: r.product_hostings.id,
+      name: r.product_hostings.name,
+    })),
   };
 }
