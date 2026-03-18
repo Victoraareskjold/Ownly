@@ -1,7 +1,9 @@
+"use server";
 import { getProduct } from "@/lib/queries/getProducts";
 import ProductDetailPageClient from "./ProductDetailPageClient";
 import { createClient } from "@/lib/supabase/server";
 import { getConversationId } from "@/lib/queries/getConversations";
+import { notFound } from "next/navigation";
 
 export default async function ProductDetailPage({
   params,
@@ -16,7 +18,7 @@ export default async function ProductDetailPage({
 
   const { productId } = await params;
   const product = await getProduct(productId);
-  if (!product) return null;
+  if (!product || !product.seller.sellerApproved) return notFound();
 
   let conversationId: string | null = null;
   if (user) {

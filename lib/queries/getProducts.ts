@@ -18,7 +18,7 @@ export async function getProduct(id: string): Promise<Product | null> {
       setup_included,
       created_at,
       demo_url,
-      profiles (id, name)
+      profiles (id, name, seller_approved)
     `,
     )
     .eq("id", id)
