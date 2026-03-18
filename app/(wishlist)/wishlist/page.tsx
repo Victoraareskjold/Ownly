@@ -101,7 +101,7 @@ function Marquee() {
 const mockProducts = [
   {
     name: "OpenCRM",
-    tagline: "A full HubSpot replacement — contacts, pipeline, emails.",
+    tagline: "A full HubSpot replacement, contacts, pipeline, emails.",
     price: 2400,
     sales: 14,
     stack: ["Next.js", "Supabase"],
@@ -318,7 +318,7 @@ export default function WishlistPage() {
       {/* ── Marquee ─────────────────────────────────────────────── */}
       <div className="relative z-10 mt-12 mb-6">
         <p className="text-center text-xs text-[#1A1A1A]/25 uppercase tracking-widest mb-5">
-          Replace any of these — forever
+          Replace any of these, forever
         </p>
         <Marquee />
       </div>
@@ -364,9 +364,8 @@ export default function WishlistPage() {
             <span className="italic text-[#2D5BE3]">Real ownership.</span>
           </h2>
           <p className="text-[#1A1A1A]/45 mt-4 max-w-lg mx-auto leading-relaxed">
-            Every product on Ownie is a complete, production-ready system — not
-            a template, not a boilerplate. Source code, docs, and setup
-            included.
+            Every product on Ownie is a complete, production-ready system, not a
+            template, not a boilerplate. Source code, docs, and setup included.
           </p>
         </div>
 
@@ -408,7 +407,7 @@ export default function WishlistPage() {
             {
               icon: RefreshCw,
               title: "Updates from the builder",
-              desc: "Sellers commit to delivering bug fixes and updates — included in your one-time price.",
+              desc: "Sellers commit to delivering bug fixes and updates included in your one-time price.",
             },
             {
               icon: Zap,
@@ -476,7 +475,7 @@ export default function WishlistPage() {
                 {
                   n: "02",
                   title: "Pick Your Stack",
-                  body: "Choose software built for your infrastructure — Docker, Vercel, Supabase. Setup help is usually included.",
+                  body: "Choose software built for your infrastructure - Docker, Vercel, Supabase. Setup help is usually included.",
                 },
                 {
                   n: "03",
@@ -502,7 +501,7 @@ export default function WishlistPage() {
               <p className="text-xs text-[#1A1A1A]/50 leading-relaxed">
                 <strong className="text-[#1A1A1A]">Example:</strong> A team
                 paying $300/mo for HubSpot ($3,600/yr) can buy an equivalent CRM
-                on Ownie for $2,000 once — and own it forever.
+                on Ownie for $2,000 once, and own it forever.
               </p>
             </div>
           </div>
@@ -593,7 +592,7 @@ export default function WishlistPage() {
               </h3>
               <p className="text-[#1A1A1A]/50 mt-4 leading-relaxed text-sm">
                 The average SMB spends $500-$2,000/month on software
-                subscriptions. That&apos;s up to $24,000 a year — and the price
+                subscriptions. That&apos;s up to $24,000 a year, and the price
                 only goes up.
               </p>
               <p className="text-[#1A1A1A]/50 mt-3 leading-relaxed text-sm">
