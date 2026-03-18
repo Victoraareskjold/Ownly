@@ -90,7 +90,7 @@ export default function ProductGrid({
               renderBadge={(item) => (
                 <span
                   key={item.id}
-                  className="text-xs px-2 py-0.5 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/40 border border-[#1A1A1A]/[0.07]"
+                  className="text-xs px-2 py-0.5 rounded-md bg-[#F7F5F0] text-[#1A1A1A]/50 border border-[#1A1A1A]/[0.07]"
                 >
                   {item.name}
                 </span>
