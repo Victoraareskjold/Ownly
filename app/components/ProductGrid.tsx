@@ -60,13 +60,13 @@ export default function ProductGrid({
           </div>
 
           {/* Tagline */}
-          <p className="text-[#1A1A1A]/40 text-xs md:text-sm leading-relaxed mb-1">
+          <p className="text-[#1A1A1A]/60 text-xs md:text-sm leading-relaxed mb-1">
             {product.tagline}
           </p>
 
           {/* Beskrivelse kun i liste-visning */}
           {gridCols === 1 && (
-            <p className="text-[#1A1A1A]/60 text-sm mt-1 hidden md:block">
+            <p className="text-[#1A1A1A]/80 text-sm mt-1 hidden md:block">
               {product.description}
             </p>
           )}
