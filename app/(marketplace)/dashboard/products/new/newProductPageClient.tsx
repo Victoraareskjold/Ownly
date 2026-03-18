@@ -546,6 +546,18 @@ export default function NewProductPageClient({
                   </span>
                 </div>
               ))}
+              <div className="flex justify-between text-xs">
+                <span className="text-[#1A1A1A]/40">Ownie fee 3%</span>
+                <span className="text-[#1A1A1A]/70 font-medium">
+                  $
+                  {price
+                    ? (parseFloat(price) * 0.03).toLocaleString("en-US", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2,
+                      })
+                    : "—"}
+                </span>
+              </div>
             </div>
           </>
         )}
