@@ -18,7 +18,7 @@ function getSellerLoginError(err: unknown): string {
   if (msg.includes("invalid login credentials"))
     return "Wrong email or password. Please try again.";
   if (msg.includes("email not confirmed"))
-    return "Your email isn't verified yet — check your inbox for a confirmation link.";
+    return "Your email isn't verified yet, check your inbox for a confirmation link.";
   if (msg.includes("user already registered"))
     return "An account with this email already exists. Try signing in instead.";
   if (msg.includes("too many requests") || msg.includes("rate limit"))
@@ -219,7 +219,7 @@ export default function AuthPage() {
           </h1>
           <p className="text-[#1A1A1A]/40 text-sm mt-1">
             {isOtpStep
-              ? `We sent a 6-digit code to ${email}.`
+              ? `We sent a 6-digit code to ${email}. Also check your spam-folder.`
               : mode === "seller"
                 ? isLogin
                   ? "Sign in to your seller account."
