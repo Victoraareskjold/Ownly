@@ -11,6 +11,48 @@ import { useSearchParams } from "next/navigation";
 type UserMode = "seller" | "buyer";
 type Step = "form" | "otp" | "done";
 
+// Maps Supabase error messages to human-friendly strings
+function getSellerLoginError(err: unknown): string {
+  const msg = err instanceof Error ? err.message.toLowerCase() : "";
+
+  if (msg.includes("invalid login credentials"))
+    return "Wrong email or password. Please try again.";
+  if (msg.includes("email not confirmed"))
+    return "Your email isn't verified yet — check your inbox for a confirmation link.";
+  if (msg.includes("user already registered"))
+    return "An account with this email already exists. Try signing in instead.";
+  if (msg.includes("too many requests") || msg.includes("rate limit"))
+    return "Too many attempts. Please wait a moment and try again.";
+
+  return err instanceof Error
+    ? `Authentication failed: ${err.message}`
+    : "Authentication failed. Please try again.";
+}
+
+function getOtpError(err: unknown): string {
+  const msg = err instanceof Error ? err.message.toLowerCase() : "";
+
+  if (msg.includes("token has expired") || msg.includes("otp expired"))
+    return "That code has expired. Please request a new one.";
+  if (msg.includes("invalid") || msg.includes("incorrect"))
+    return "That code is incorrect. Double-check and try again.";
+  if (msg.includes("too many") || msg.includes("rate limit"))
+    return "Too many attempts. Please wait and try again.";
+
+  return "Verification failed. Please try again.";
+}
+
+function getBuyerError(err: unknown): string {
+  const msg = err instanceof Error ? err.message.toLowerCase() : "";
+
+  if (msg.includes("too many") || msg.includes("rate limit"))
+    return "Too many requests. Please wait a moment and try again.";
+  if (msg.includes("invalid email") || msg.includes("unable to validate"))
+    return "That doesn't look like a valid email address.";
+
+  return "Something went wrong. Please try again.";
+}
+
 export default function AuthPage() {
   const supabase = createClient();
   const searchParams = useSearchParams();
@@ -53,13 +95,11 @@ export default function AuthPage() {
       } else {
         setStep("otp");
         startResendTimer();
+        toast.success("Code sent! Check your inbox.");
       }
     } catch (err: unknown) {
-      toast.error("Something went wrong.");
-
-      console.error(
-        err instanceof Error ? err.message : "Something went wrong.",
-      );
+      console.error(err);
+      toast.error(getBuyerError(err));
     } finally {
       setLoading(false);
     }
@@ -71,14 +111,15 @@ export default function AuthPage() {
 
     try {
       const userId = await verifyBuyerOtp(email, otp);
-      if (!userId) return;
+      if (!userId) {
+        toast.error("Couldn't verify your code. Please try again.");
+        return;
+      }
       await handleNewUser(email, null, "buyer");
       window.location.href = nextRoute;
     } catch (err: unknown) {
-      toast.error("Something went wrong.");
-      console.error(
-        err instanceof Error ? err.message : "Something went wrong.",
-      );
+      console.error(err);
+      toast.error(getOtpError(err));
     } finally {
       setLoading(false);
     }
@@ -99,7 +140,7 @@ export default function AuthPage() {
         window.location.href = nextRoute;
       } else {
         if (password !== confirmPassword) {
-          toast.error("Passwords do not match");
+          toast.error("Passwords do not match.");
           return;
         }
 
@@ -116,15 +157,13 @@ export default function AuthPage() {
         setConfirmPassword("");
         setStep("otp");
         startResendTimer();
+        toast.success(
+          "Account created! Check your email for the verification code.",
+        );
       }
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(`Authentication failed: ${err.message}`);
-        console.error(err);
-      } else {
-        toast.error("Authentication failed");
-        console.error(err);
-      }
+      console.error(err);
+      toast.error(getSellerLoginError(err));
     } finally {
       setLoading(false);
     }
@@ -143,15 +182,15 @@ export default function AuthPage() {
       if (error) throw error;
 
       if (!data.user?.email_confirmed_at) {
-        throw new Error("Email not confirmed");
+        toast.error("Email not confirmed. Request a new code and try again.");
+        return;
       }
 
       await handleNewUser(email, null, "seller");
       window.location.href = nextRoute;
     } catch (err: unknown) {
-      toast.error(
-        err instanceof Error ? err.message : "Invalid code. Try again.",
-      );
+      console.error(err);
+      toast.error(getOtpError(err));
     } finally {
       setLoading(false);
     }
@@ -260,18 +299,21 @@ export default function AuthPage() {
                 onClick={async () => {
                   if (resendTimer > 0) return;
 
-                  if (mode === "seller") {
-                    await supabase.auth.signInWithOtp({
-                      email,
-                      options: {
-                        shouldCreateUser: true,
-                      },
-                    });
-                  } else {
-                    await buyerAuth(email, "");
+                  try {
+                    if (mode === "seller") {
+                      await supabase.auth.signInWithOtp({
+                        email,
+                        options: { shouldCreateUser: true },
+                      });
+                    } else {
+                      await buyerAuth(email, "");
+                    }
+                    toast.success("New code sent!");
+                    startResendTimer();
+                  } catch (err: unknown) {
+                    console.error(err);
+                    toast.error("Couldn't resend the code. Please try again.");
                   }
-
-                  startResendTimer();
                 }}
                 className="text-[#2D5BE3] hover:underline disabled:opacity-40 disabled:no-underline"
               >
