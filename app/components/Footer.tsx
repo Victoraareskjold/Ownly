@@ -21,7 +21,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               {[
                 { label: "Browse products", href: "/" },
-                { label: "New arrivals", href: "/?sort=new" },
+                { label: "New arrivals", href: "/products/?sort=new" },
                 { label: "List a product", href: "/products/new" },
               ].map((l) => (
                 <Link
