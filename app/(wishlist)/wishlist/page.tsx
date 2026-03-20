@@ -11,6 +11,7 @@ import {
   Shield,
   RefreshCw,
 } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
 // ─── Animated counter ────────────────────────────────────────────────────────
@@ -230,7 +231,7 @@ export default function WishlistPage() {
         <span className="font-medium text-2xl tracking-tight text-[#1A1A1A]">
           own<span className="text-[#2D5BE3]">ie</span>
         </span>
-        <a
+        <Link
           href="https://x.com/ownieapp"
           target="_blank"
           rel="noopener noreferrer"
@@ -238,7 +239,7 @@ export default function WishlistPage() {
           aria-label="Follow on X/Twitter"
         >
           <XIcon />
-        </a>
+        </Link>
       </nav>
 
       {/* ── Hero ────────────────────────────────────────────────── */}
@@ -695,7 +696,7 @@ export default function WishlistPage() {
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="relative z-10 border-t border-[#1A1A1A]/[0.07] px-8 py-6 md:px-16 flex items-center justify-between bg-[#F7F5F0] mt-auto">
         <span className="text-[#1A1A1A]/25 text-xs">© 2026 Ownie</span>
-        <a
+        <Link
           href="https://x.com/ownieapp"
           target="_blank"
           rel="noopener noreferrer"
@@ -703,7 +704,7 @@ export default function WishlistPage() {
         >
           <XIcon size={12} />
           @Ownie
-        </a>
+        </Link>
       </footer>
 
       <style>{`
