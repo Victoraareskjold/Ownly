@@ -2,8 +2,10 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { Profile } from "@/lib/types/profile";
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 type ProfilePageClientProps = {
   profile: Profile | null;
@@ -11,20 +13,38 @@ type ProfilePageClientProps = {
 
 export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
   const supabase = createClient();
+  const searchParams = useSearchParams();
+  const [stripeLoading, setStripeLoading] = useState(false);
+
+  useEffect(() => {
+    const stripe = searchParams.get("stripe");
+    if (stripe === "success") toast.success("Stripe account connected!");
+    if (stripe === "refresh") toast.info("Please complete your Stripe setup.");
+  }, [searchParams]);
 
   const handleSignOut = async (e: FormEvent) => {
     e.preventDefault();
-
     const confirmed = window.confirm("Are you sure you want to sign out?");
     if (!confirmed) return;
-
     const { error } = await supabase.auth.signOut();
     if (error) {
       toast.error("Failed to sign out");
-      console.error(error);
-      throw error;
+      return;
     }
     window.location.reload();
+  };
+
+  const handleStripeConnect = async () => {
+    setStripeLoading(true);
+    try {
+      const res = await fetch("/api/stripe/connect", { method: "POST" });
+      const { url, error } = await res.json();
+      if (error) throw new Error(error);
+      window.location.href = url;
+    } catch {
+      toast.error("Failed to connect Stripe. Try again.");
+      setStripeLoading(false);
+    }
   };
 
   const labelClass =
@@ -32,13 +52,8 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
 
   const rows = [
     { label: "Role", value: profile?.role },
-
     ...(profile?.role !== "buyer"
       ? [
-          {
-            label: "Account type",
-            value: profile?.isTeam ? "Team" : "Individual",
-          },
           {
             label: "Seller approved",
             value: profile?.sellerApproved ? "✓ Approved" : "Not approved",
@@ -46,7 +61,6 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
           },
         ]
       : []),
-
     {
       label: "Member since",
       value: profile?.createdAt
@@ -61,7 +75,6 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
 
   return (
     <div className="max-w-3xl flex flex-col mx-auto px-6 py-12 gap-8">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-medium tracking-tight text-[#1A1A1A]">
           Profile
@@ -70,7 +83,6 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
           Your account details and preferences.
         </p>
       </div>
-
       {/* Identity card */}
       <div className="rounded-xl border border-[#1A1A1A]/[0.07] bg-white shadow-sm p-8 space-y-6">
         <div className="flex items-center gap-4">
@@ -92,9 +104,7 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
             <div key={row.label}>
               <p className={labelClass}>{row.label}</p>
               <p
-                className={`text-sm font-medium capitalize ${
-                  row.highlight ? "text-[#2D5BE3]" : "text-[#1A1A1A]/70"
-                }`}
+                className={`text-sm font-medium capitalize ${row.highlight ? "text-[#2D5BE3]" : "text-[#1A1A1A]/70"}`}
               >
                 {row.value ?? "—"}
               </p>
@@ -102,8 +112,43 @@ export default function ProfilePageClient({ profile }: ProfilePageClientProps) {
           ))}
         </div>
       </div>
-
-      {/* Actions */}
+      {/* Stripe — kun for sellers */}
+      {profile?.role === "seller" && (
+        <div className="rounded-xl border border-[#1A1A1A]/[0.07] bg-white shadow-sm p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-[#1A1A1A]">
+                Stripe payments
+              </p>
+              <p className="text-xs text-[#1A1A1A]/40 mt-0.5">
+                {profile.stripeAccountId
+                  ? `Connected · ${profile.stripeAccountId}`
+                  : "Connect Stripe to receive payouts when you make a sale."}
+              </p>
+              {!profile.stripeAccountId && (
+                <p className="text-xs text-[#1A1A1A]/40 mt-0.5">
+                  Stripe requires identity verification. Setup typically takes
+                  2-5 minutes.
+                </p>
+              )}
+            </div>
+            {profile.stripeAccountId ? (
+              <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 font-medium">
+                Connected
+              </span>
+            ) : (
+              <button
+                onClick={handleStripeConnect}
+                disabled={stripeLoading}
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1A1A] text-white text-xs font-medium hover:bg-[#2D5BE3] transition-colors disabled:opacity-50"
+              >
+                {stripeLoading && <Loader2 className="w-3 h-3 animate-spin" />}
+                {stripeLoading ? "Redirecting..." : "Connect Stripe →"}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
       <div className="flex gap-3">
         <button
           onClick={handleSignOut}

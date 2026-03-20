@@ -12,7 +12,6 @@ export async function getProfile(userId: string) {
       name,
       email,
       role,
-      is_team,
       seller_approved,
       stripe_account_id,
       created_at

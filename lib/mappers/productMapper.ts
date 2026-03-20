@@ -15,7 +15,6 @@ export function mapProductFromDb(data: any): Product {
     createdAt: data.created_at,
     seller: {
       id: data.profiles?.id,
-      isTeam: data.profiles?.isTeam,
       name: data.profiles?.name,
       sellerApproved: data.profiles?.seller_approved,
       email: data.profiles?.email,

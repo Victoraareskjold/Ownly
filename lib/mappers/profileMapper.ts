@@ -5,7 +5,6 @@ export function mapProfileFromDb(data: any): Profile {
   return {
     id: data.id,
     name: data.name,
-    isTeam: data.is_team,
     sellerApproved: data.seller_approved,
     email: data.email,
     role: data.role,
