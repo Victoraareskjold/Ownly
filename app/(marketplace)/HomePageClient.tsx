@@ -34,7 +34,7 @@ export default function HomePage({ initialProducts }: HomePageProps) {
           <span className="italic text-[#2D5BE3]"> Pay once.</span>
         </h1>
         <p className="text-[#1A1A1A]/45 text-lg mb-10 max-w-lg mx-auto">
-          Complete, self-hosted alternatives to expensive SaaS tools — built by
+          Complete, self-hosted alternatives to expensive SaaS tools, built by
           independent developers.
         </p>
 

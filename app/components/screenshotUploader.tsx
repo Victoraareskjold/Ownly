@@ -70,7 +70,7 @@ export default function ScreenshotUploader({
       </div>
 
       <p className="text-xs text-[#1A1A1A]/30 mt-2">
-        {files.length}/{max} screenshots — shown to buyers. JPG, PNG or WebP.
+        {files.length}/{max} screenshots shown to buyers. JPG, PNG or WebP.
       </p>
 
       <input

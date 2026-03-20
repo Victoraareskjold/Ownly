@@ -332,7 +332,7 @@ export default function ProductDetailPageClient({
                     disabled={isMe}
                     className="w-full py-3 rounded-full bg-[#1A1A1A] text-white font-medium text-sm hover:bg-[#2D5BE3] transition-colors duration-200"
                   >
-                    Buy now — {formatPrice(product.price)}
+                    Buy now - {formatPrice(product.price)}
                   </button>
                   {conversationId ? (
                     <Link

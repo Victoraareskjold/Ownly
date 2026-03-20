@@ -224,11 +224,11 @@ export default function AuthPage() {
                 ? isLogin
                   ? "Sign in to your seller account."
                   : "Start selling on the marketplace."
-                : "No password needed — we'll email you a code."}
+                : "No password needed - we'll email you a code."}
           </p>
         </div>
 
-        {/* Mode toggle — hidden on OTP step */}
+        {/* Mode toggle - hidden on OTP step */}
         {!isOtpStep && (
           <div className="flex gap-1 p-1 rounded-lg bg-[#F7F5F0] border border-[#1A1A1A]/[0.07] mb-6">
             {(["seller", "buyer"] as UserMode[]).map((m) => (
