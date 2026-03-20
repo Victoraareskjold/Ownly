@@ -6,7 +6,7 @@ import WishlistPage from "./(wishlist)/wishlist/page";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "Ownie | Next-gen marketplace",
+  title: "Next-gen marketplace | Ownie",
   description:
     "Next-gen marketplace, connecting buyers & builders. Buy once, own forever.",
 };
