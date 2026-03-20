@@ -41,11 +41,7 @@ export default function Navbar({ user }: { user: User | null }) {
               </>
             )}
             <Link
-              href={
-                user
-                  ? "/dashboard/products/new"
-                  : "/auth?next=/dashboard/products/new"
-              }
+              href={user ? "/products/new" : "/auth?next=/products/new"}
               className="px-4 py-2 bg-[#1A1A1A] text-white text-sm font-medium rounded-lg hover:bg-[#2D5BE3] transition-colors duration-200"
             >
               List product
