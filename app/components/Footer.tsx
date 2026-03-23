@@ -83,7 +83,7 @@ export default function Footer() {
                 href="mailto:hello@ownie.app"
                 className="text-xs text-[#1A1A1A]/40 hover:text-[#1A1A1A]/70 transition-colors"
               >
-                hello@ownie.com
+                hello@ownie.app
               </Link>
             </div>
           </div>
