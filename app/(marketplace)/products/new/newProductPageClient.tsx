@@ -492,18 +492,18 @@ export default function NewProductPageClient({
 
             {[
               {
-                key: "updates",
-                value: updatesIncluded,
-                set: setUpdatesIncluded,
-                label: "Updates included",
-                desc: "You commit to delivering all future updates and bug fixes to buyers free, forever.",
-              },
-              {
                 key: "setup",
                 value: setupIncluded,
                 set: setSetupIncluded,
                 label: "Setup assistance included",
                 desc: "You personally help the buyer deploy and go live (Vercel, Docker, VPS, etc.).",
+              },
+              {
+                key: "updates",
+                value: updatesIncluded,
+                set: setUpdatesIncluded,
+                label: "Future updates included",
+                desc: "You commit to delivering all future updates to buyers free, forever.",
               },
             ].map((item) => (
               <button
@@ -574,11 +574,11 @@ export default function NewProductPageClient({
                 },
                 { label: "Demo", value: demoUrl ? "✓ Provided" : "—" },
                 {
-                  label: "Updates",
+                  label: "Future updates",
                   value: updatesIncluded ? "✓ Included" : "Not included",
                 },
                 {
-                  label: "Setup help",
+                  label: "Setup assistance",
                   value: setupIncluded ? "✓ Included" : "Not included",
                 },
               ].map((row) => (
@@ -602,6 +602,13 @@ export default function NewProductPageClient({
                 </span>
               </div>
             </div>
+
+            <p className="text-xs text-[#1A1A1A]/60">
+              As a seller, you are obligated to resolve any reported bugs or
+              issues within 14 days of purchase. Failure to do so grants the
+              buyer the right to request a full refund. Please ensure you comply
+              with this requirement to maintain trust and avoid disputes.
+            </p>
           </>
         )}
       </div>
